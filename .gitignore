@@ -1,0 +1,18 @@
+# Internal maintainer notes — not part of the published product
+PACKAGING-NOTES.md
+
+# A user's own runs live in their own project, never in this repo.
+# If you test locally, keep real health data out of the tree:
+/memory/
+/data/
+research/
+extracted/
+*.local.md
+
+# OS / editor junk
+.DS_Store
+*~
+*.bak
+*.bak-*
+.idea/
+.vscode/

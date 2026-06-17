@@ -1,0 +1,34 @@
+name: CI
+
+# Deterministic quality gates for OpenBioHack. These run on every PR and must pass to merge
+# (set this workflow as a required status check in branch-protection settings).
+#
+# NOTE: the FULL eval harness (running an investigation and grepping its artifacts) needs a Claude
+# Code session and cannot run headless here — maintainers run it before releases. CI enforces the
+# deterministic gates below: register cleanliness and eval-case structure.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Register sweep (non-directive register on content docs)
+        run: bash eval/register-sweep.sh
+
+      - name: Eval-case structure
+        run: bash eval/check-eval-structure.sh
+
+      - name: Shell sanity (eval scripts parse)
+        run: |
+          for s in eval/register-sweep.sh eval/check-eval-structure.sh skills/investigate-health/eval/run-evals.sh; do
+            bash -n "$s" && echo "ok: $s"
+          done
