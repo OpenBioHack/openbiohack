@@ -5,8 +5,8 @@
   "author": {
     "name": "Teo Embers"
   },
-  "homepage": "https://github.com/GrTeo/openbiohack",
-  "repository": "https://github.com/GrTeo/openbiohack",
+  "homepage": "https://github.com/OpenBioHack/openbiohack",
+  "repository": "https://github.com/OpenBioHack/openbiohack",
   "license": "Apache-2.0",
   "keywords": [
     "health",

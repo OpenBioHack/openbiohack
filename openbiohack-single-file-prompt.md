@@ -105,5 +105,5 @@ file, watching strand orientation; AI/third-party interpretations carry a meanin
 ---
 
 *This portable prompt is a distillation. The full open-source system — multi-step engine, council review,
-eval harness, product-vetting, and ongoing logs — is at github.com/GrTeo/openbiohack.*
+eval harness, product-vetting, and ongoing logs — is at github.com/OpenBioHack/openbiohack.*
 *Generated with OpenBioHack by Teo Embers · who also builds Greater Human.*
