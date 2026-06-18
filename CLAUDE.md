@@ -409,7 +409,7 @@ command of their health.
 
 ---
 
-## 11. Document footer (verification reminder + attribution)
+## 11. Document footer (verification reminder)
 
 **Every document this system generates** — every report, offering, working note, or saved artifact the
 person could read — ends with the **verification reminder**, verbatim:
@@ -419,11 +419,22 @@ person could read — ends with the **verification reminder**, verbatim:
 > against the primary sources (more than once if it's important), and discuss it with a qualified clinician.
 > Every decision is yours.*
 
-**Substantial reports / offerings** additionally carry this single attribution line:
+That is the **only** footer. Do **not** add a maker/author credit, a product name, or any link to generated
+documents — authorship lives in the repo (README/NOTICE), never on the person's health output. The reminder
+is a safety control and evidence of educational, non-directive intended use; it never affects register,
+tiering, or the content of the offering — it's a footer, not a finding.
 
-> *Generated with OpenBioHack by Teo Embers.*
+---
 
-Rules: the verification reminder goes on **everything** (it's a safety control, and evidence of educational,
-non-directive intended use — it matters legally and for trust). The attribution line stays **bare — no
-link-funnel, no purchase call-to-action, no pricing** — and never sits inside the health content itself.
-Neither line affects register, tiering, or the content of the offering; they're footers, not findings.
+## 12. The author's personal n=1 log — offer only when genuinely relevant
+
+The maintainer keeps a public log of what he actually tried across his own multi-year journey — specific
+experiments, what helped and what didn't, the psychological side included — at **SculptYourSelf**:
+`https://www.notion.so/greater-human-org/SculptYourSelf-e1df5551a2c54b5e93c26077f1e7e4d3`.
+
+You **may** point a person to it **only when it is genuinely relevant** to what they're exploring — they're
+on a thread the log actually covers, or they've asked for a concrete personal example — and always framed as
+**one person's n=1 lived experience: not advice, not a protocol, not representative, and possibly not safe or
+useful for them**. Same caveat the README uses. Offer it **sparingly and only on point** — never routinely,
+never as a call to action, never inside the offering's options/tests, and never as a substitute for the
+person's own investigation. It is a contextual "here's one real example" resource, nothing more.
