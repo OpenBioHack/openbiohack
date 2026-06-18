@@ -36,6 +36,19 @@ represents the source while following these principles.
 
 - **Verbatim originals are canonical.** The source file is the truth. The extracted
   markdown is an interpretation. When they disagree, the source wins.
+- **Loss-less to STRUCTURE, not just to values — the extraction is a representation, never
+  a summary.** Preserve not only every individual value but the source's entire internal
+  *structure*: its ordering, grouping, sectioning, axes, columns and their headers, any
+  printed annotations, footnotes, threshold/reference lines, legends, and every relationship
+  the source lays out between elements (which row belongs to which group, which label spans
+  which range, what is plotted against what). The single success test: **the original could
+  be reconstructed from the extraction with nothing lost or flattened.** Never reduce,
+  select, rank, headline, or decide "what matters" — that is interpretation and lives
+  downstream. This is fully general and form-agnostic: it holds for a time-series, a table
+  of ratios, a spatial layout, a categorical breakdown, a correlation, a free-text
+  narrative, or anything else — the rule is "carry all structure through exactly as given,"
+  never "look for feature X." A reduction is precisely where structure silently dies, so
+  the extraction contains no reductions at all.
 - **Every item carries a source ID.** At minimum: file name + location (page, section,
   or line) + the verbatim source quote it came from. Format: `[src: <file>, <location>,
   "<quote>"]`. An item without a source ID is not allowed in the output.
@@ -62,7 +75,13 @@ represents the source while following these principles.
 
 Everything lands in an `extracted/` directory in the investigation's project folder, in
 two tiers. This is the complete, fixed manifest — producing all of these files is what
-"done" means:
+"done" means. **When this extraction is run by a dispatched agent, that agent returns ONLY
+a completion signal — "done" plus the file path(s) — and NEVER a summary, headline,
+orientation, or any account of the contents or findings.** The files are the sole
+deliverable; there is deliberately no compressed version, so whoever consumes the
+extraction is forced to open the actual files. (The only thing an agent may surface besides
+"done" is a *process* failure — e.g. a source was illegible or corrupt — never a content
+summary.) The manifest:
 
 ```
 extracted/

@@ -1,6 +1,6 @@
 ---
 name: self-report-pattern
-version: 1.0.0
+version: 1.1.0
 applies-to-claim-class: self-report-pattern
 ---
 
@@ -50,9 +50,42 @@ other mechanisms — but specified)?
 - **2:** Within a day but not tighter.
 - **3:** Within hours, consistent across instances.
 
+### Axis 5 — provenance + stated confidence % (D7)
+
+**Definition.** For an answer given live in the interview, capture two things and weight by them
+*together*. **Certainty is not reliability** — a confidently-stated hazy memory weights down.
+
+- **Confidence %** — captured as a percentage, *always* a %, never a 1–5 scale ("how sure, as a
+  rough percent?"). This is the subject's own certainty.
+- **Provenance** — one of:
+  - `from-notes` — read from the subject's own notes / records / logs. Highest reliability.
+  - `clear-recent-memory` — recent and the subject is sure of the memory. High.
+  - `hazy-memory` — long-ago and/or the subject is unsure of the memory. Weights down.
+  - `inference` — the subject is assuming / inferring, not reporting a direct experience. Weights down.
+
+Do NOT use a "directly-experienced vs recalled" split — every answer is recalled, so the boundary
+is not clean and does not help. Provenance + % is the replacement.
+
+**Reliability weighting.** A `from-notes` or `clear-recent-memory` answer carries its stated % at
+face value (top-authority own-data observation, register §"Authority is a third axis"). A
+`hazy-memory` or `inference` answer is weighted **down even when the stated % is high** — record it
+in `working-truth.md`'s `## Top-authority observations` with the provenance attached so downstream
+synthesis cannot launder a hazy answer into hardened evidence.
+
+| Provenance | Effect on weight |
+|---|---|
+| from-notes | full (at stated %) |
+| clear-recent-memory | full (at stated %) |
+| hazy-memory | downgrade one tier regardless of stated % |
+| inference | downgrade one tier and flag as not-yet-observed; hold at T3 or below |
+
 ## Tier ceilings on axis failure
 
-| Axes failing | Tier ceiling |
+Axes 1–4 govern whether a *pattern* is signal; Axis 5 governs the *reliability of a single live
+answer*. Apply whichever is in scope (a logged diary uses 1–4; a spoken interview answer uses 5,
+and 1–4 too if it asserts a pattern). Ceilings stack — take the lowest.
+
+| Axes failing (1–4) | Tier ceiling |
 |---|---|
 | 0 | No ceiling |
 | 1 | Downgrade one tier |
@@ -63,11 +96,11 @@ other mechanisms — but specified)?
 
 ### Case 1 — recurring food→symptom pattern (synthetic)
 
-**Primary source.** "Every time I eat red meat in the evening, within ~3-6
-hours I get worse flank itch the next morning. Observed at least 5 times
+**Primary source.** "Every time I eat aged cheese in the evening, within ~3-6
+hours I get facial flushing and a headache that same evening. Observed at least 5 times
 over a couple of months."
 
-**Expected scores.** Axis 1: 3. Axis 2: 3 (red meat as a class — could
+**Expected scores.** Axis 1: 3. Axis 2: 3 (aged cheese as a class — could
 narrow further). Axis 3: 3. Axis 4: 2 (3-6h is loose for histamine but
 consistent).
 
@@ -119,4 +152,5 @@ re-challenge to discriminate from recall bias.
 
 ## Change-log
 
+- **1.1.0** (2026-06-18) — Added Axis 5 (provenance + stated confidence %, D7); ceilings stack.
 - **1.0.0** (2026-06-09) — Initial.

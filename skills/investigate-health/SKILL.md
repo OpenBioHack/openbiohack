@@ -210,10 +210,46 @@ visibly in the person-facing offering.
 
 When in doubt, tier lower, not higher. For T2+ claims, the banned-escalation words from `CLAUDE.md` apply ("confirms," "proves," "clearly," "the reason is," etc.) — these are reserved for T1. The anti-escalation rule applies across rewrites *and across conversation turns*: confidence at the end of a draft, or at the end of a follow-up message, must not exceed confidence at the start without new evidence justifying the move. If the hypothesis swings to a new confident verdict in every reply because of what the person just said — rather than because of new evidence about what's actually happening biologically — that's the conversation steering the conclusion, not the case.
 
-**Register vocabulary (canonical, enforced — applies to EVERY artifact and EVERY dispatched sub-agent).**
+**Authority is a third axis — and it carries a NO-OVERRIDE rule.** The tiers above measure *causal
+certainty*; the evidence hierarchy (further down) measures *study quality*. Neither measures
+**specificity-to-this-subject (n-of-1 relevance)** — and that is a distinct axis. For a conclusion *about
+this person*, the **person's own measured data and their directly-experienced lived report are the top
+authority**, above any population/general evidence however high its study quality. (T1 already says "or
+direct measurement of this person's own data"; this makes that explicit and adds lived report.) The rule:
+*a general/population claim — at any study-quality tier — may REFRAME or CONTEXTUALISE a higher-authority
+own-data / directly-experienced observation about this person, but may NOT by itself OVERTURN it.* To
+overturn a top-authority observation you need other top-authority evidence (the person's own
+data/experience), not a textbook, a population average, or a single timeboxed agent's "didn't find." This
+is what stops the authority inversions: a blind agent's prior must not override the live interview; a
+timeboxed null must not override "we have not actually looked" (no-evidence ≠ negative); a population
+average must not override a standout finding that demands its own mechanism. This axis is held as
+persistent state — see the **Working-Truth Ledger** (`<root>/working-truth.md`; full spec
+`references/working-truth-ledger.md`), the authority-ranked, status-latched, disconfirmation-pruned object
+the engine reads first and updates last at every synthesis step. **It is lens-agnostic:** in the OPTIMIZE
+lens the person's own *response data* is still top authority, reconciled against, looped back to, and
+parked/re-raised by evidence in exactly the same way.
+
+**Veracity — quoted data, timing and sequence must be real (a separate check from authority).** The
+no-override rule cannot catch a *fabricated* relationship — two facts from different dates lined up and
+asserted as a correlation ("best while load was highest"). That is a veracity failure, and it needs its own
+pass. Before any claim that quotes data is committed — **especially any temporal / sequencing / ordering /
+"X tracks · coincides-with · rose-after · best-while Y" claim** — in a pass *separate from writing the
+prose*: re-fetch each quoted datum (value, date, what the source says) from its source; for any
+timing/sequence/ordering claim confirm **both** endpoints are actually dated in the record and the ordering
+is correct; restate the verified chain. A claim whose endpoints do not both resolve is struck or downgraded
+to "timing unknown." This generalises the recombination agent's temporal-claim gate to every synthesis
+write, and is enforced both structurally (a temporal/sequence sentence must carry a source **+ date**
+citation) and semantically (the Step-7 veracity-auditor re-derives each quoted fact from source).
+
+**Register vocabulary (canonical, enforced — applies to EVERY artifact, EVERY dispatched sub-agent, AND
+every word the orchestrator narrates to the person in chat).**
 This is the single source of truth for register words. The `subagent-context` hook injects it into every
 role; the `write-check` hook lints every written artifact against it; `eval/case-12-register` regression-
-tests it. Banned vocabulary, by class:
+tests it. **But the hooks govern files and sub-agents only — no hook can lint the orchestrator's chat. The
+chat is therefore the one place the register runs on the honour system, and (per the live-run post-mortem)
+the place it most often slips: disciplined, hedged, unranked files get narrated back to the person as bald,
+ranked, over-confident assertions. Apply every rule below to your chat narration exactly as rigorously as to
+a gated file — see "Conversational register" below.** Banned vocabulary, by class:
 
 - **Advisory / imperative (never — the procedure offers options, it does not instruct):** any sentence that
   tells the person or their clinician to **perform an action** — to start, stop, change, take, add, or
@@ -247,10 +283,40 @@ tests it. Banned vocabulary, by class:
   reason is, this means, this explains, clearly, obviously, definitely, we now know, the mechanism is,
   which is causing, almost certainly* (when up-weighting). Note also: **"PROVES at n=1"** → "gives strong
   n=1 causal evidence."
+- **Hyperbole, ranking & false-precision (never — possibilities are held in parallel; the procedure does
+  not crown winners):** *the biggest / single biggest / biggest single / single most / the main / the
+  primary / the dominant [thread / driver / factor / story], the strongest frame, the key thing, what's
+  really going on.* Do **not** rank a "winner" or a "biggest" anything — the hypotheses are held in
+  parallel, and it is the *differences between them* (the cheap discriminating tests), **not** a ranking,
+  that define the next step. Also banned as causal overreach below T1: *likely explains, explains the,
+  accounts for, is driven by, points to [X] (as a verdict), reads as [X], doesn't actually
+  [support / mean / meet], didn't touch / didn't help.* State trial results as plain observations —
+  *"the elemental diet did not noticeably change the belching"* is fine; *"the elemental diet didn't touch
+  it, so it's not fermentation"* is not. Replace every one of these with a possibility frame.
 
 **Required probabilistic frame (use instead):** *candidate, possible, may, could, one pattern that could
-fit, on the evidence so far it looks like, worth considering, worth discussing with your clinician, among
-the more addressable possibilities here.*
+fit, one of the things that could be contributing, it might point toward, possibly has features of, on the
+evidence so far it could be, worth considering, worth discussing with your clinician, among the more
+addressable possibilities here.* When you repeat a claim a research sub-agent produced, **carry its hedge
+and attribute it** — *"one consensus source frames belch gas as mostly swallowed air, though that describes
+gastric belching in general rather than your case"* — never restate an agent's claim as a bald fact.
+
+**Conversational register — the chat is in scope, and is where it slips.** Everything you *say* to the
+person obeys the rules above, not only what you write to disk. **Think with the nuance of a Keegan level-5
+thinker — everywhere, in the files and *especially* in the chat.** Concretely:
+- **Never rank or crown.** No "the biggest single thread," "the strongest frame," "the main driver."
+  Present the competing possibilities as a *set* and let the cheap discriminating tests — not a ranking —
+  carry the next step. Crowning a winner in chat also contradicts `hypothesis-set.md`, which is held in
+  parallel and **not ranked** by design.
+- **Carry the tier into the sentence.** If a file states something at *mechanistically-plausible* with a
+  ledger cite, the chat says "one possibility that could fit…," not "X reads as Y." Never upgrade a hedged,
+  attributed file line into a chat verdict.
+- **Synthesise the whole set, not document-by-document.** Don't narrate a running verdict as you read each
+  artifact ("read this → weakens H1; read that → reframes H5"). Read the relevant set, *then* give one
+  holistic, hedged summary — per-document verdicts both anchor your thinking and read as overconfident.
+- **The honest sentence is usually longer and softer.** "It could be one of the contributors to the
+  belching, alongside a couple of other possibilities we can't separate yet" beats "the belching reads as
+  upper-GI gas handling." Choose the former every time.
 
 **Non-directive safety-information template — the GENERAL rule for ANY high-consequence flag** (a drug–drug
 interaction, a contraindication, a "screen before treatment Z" item, a parasite × immunosuppressant risk —
@@ -423,6 +489,23 @@ for what it measures says nothing about a process it never targeted. Carry these
 notes forward: they are what keep Step 5 from reading a narrow negative as a broad rule-out
 (register §"Rule-outs are typed, not blanket," type (d)).
 
+**Map every structured/quantitative source from the raw file before any verdict — then
+research the pattern, not the instrument.** For each source that carries internal structure
+(a time-series, a curve, a panel with reference bands, a graded series, a layout with
+printed groupings/annotations), the orchestrator works from the raw document/extraction
+itself (never a summary — see "No summaries, ever") and **re-derives the data's full shape
+point-by-point**: every datapoint with the source's own annotations (location windows,
+threshold lines, reference ranges), and the relationships and structure the source lays out.
+A practitioner's one-word read of such a source ("equivocal," "normal," "positive") is a
+*claim to be tested against that mapping*, never a substitute for doing it. Only once the
+actual pattern is characterised does research get dispatched — and it is dispatched
+**pattern-first, not test-first**: research the specific shape you found ("a two-peak
+lactulose curve with an elevated fasting baseline"), not the generic instrument ("is this
+test reliable"), because test-first questions return the average caveat and tend to confirm
+whatever prior you walked in with. Skipping the mapping and inheriting the verdict, or
+researching the instrument instead of the pattern, is a recorded failure mode (see
+`corrections.md` lineage) — the audit checks for it.
+
 Don't name any mechanisms yet. The job here is to absorb what's actually there.
 
 *Output:* the `extracted/` set produced and verified via `/extract-health-data`, plus a
@@ -490,8 +573,29 @@ These moves sharpen this:
   modal cause from memory (a T3 move) instead of dispatching both is the failure that lets a
   specific, nameable, missed cause hide behind a generic label.
 
+**Two kinds of mechanism map — build BOTH, early.** The map above is built **blind from symptoms** (process
+maps for what could produce the felt experience). That blind, symptom-driven mapping is valuable and stays —
+and it is worth keeping *some* maps deliberately symptom-only, because reasoning forward from the felt
+experience surfaces routes a result-anchored map would miss. But on its own it misses the deep biology of
+the person's *actual measured anomalies*. So **also** build, at this same stage:
+
+- **Test-result-anchored mechanism maps (Dm).** For **each out-of-bounds / anomalous result** — each
+  overgrown organism, each out-of-range lab / hormone / marker — build a dedicated mechanism map of its core
+  biology via a paired `/research` + `/research-practitioner` dispatch (named output files per the research
+  contract). Each asks *what this thing actually is and does*: what it consumes and produces (gases,
+  metabolites, proteases, mediators), what is **upstream** (what could drive this value out of range) and
+  **downstream** (what this value in turn affects / drives), and the conditions under which it shifts from
+  benign to meaningful. This **generalises** the standout/extreme-finding → mechanism-map rule (see "How the
+  loop is actually run") from *the largest-magnitude* outlier to **every** anomaly — scaled by degree-out-of-
+  range so it stays tractable, but comprehensive in principle. Build it **early, not in loop-back:** doing the
+  deep per-anomaly biology now makes the Step-4.5 hypotheses mechanism-grounded in the person's actual data
+  from the start, and lets the Step-5→6 deepening loop (D5) mostly *integrate and sequence* pre-built maps
+  rather than start mechanism research late. (Enforced: the Step-5 gate requires a per-anomaly mechanism-map
+  artifact for each flagged out-of-bounds result — see the required-artifact contract.)
+
 *Output:* a mechanism map — observations paired with the underlying processes that might
-have to be happening to produce them.
+have to be happening to produce them — **plus** a test-result-anchored mechanism map per out-of-bounds
+result (`research/anomaly-<slug>-*` files), built early via paired research.
 
 **Mechanism-driven genetics query.** When the working mechanism map identifies
 pathways that may be load-bearing AND raw-genetics data is available for the
@@ -574,8 +678,9 @@ causal contributors to the assigned mechanism.
 
 OUTPUT. Write the full graph to {OUTPUT_PATH} as a text adjacency list — each edge as
 `source -> target: one-line mechanism [Tn]` with the falsifier appended for T3+ edges,
-organised by layer. Then return the flat list of every node name, node/edge counts, the
-deepest layer reached, and a 3-sentence summary.
+organised by layer. Then return ONLY a completion signal — "done" and the output path. Do
+not return a node list, counts, or any summary; the graph file is the sole deliverable and
+the orchestrator reads it.
 ```
 
 Width is unbounded within the graph; depth stops at five layers. The real answer for a
@@ -801,7 +906,7 @@ The mechanic:
    The timeline is also one of only two real n=1 confirmation tools (the other is the
    on-off-on trial).
 
-2. **Generate by contrast.** Write the single most conventional explanation first; then
+2. **Generate by contrast.** Write the most conventional explanation first; then
    deliberately construct the strongest **rivals** — each explaining the same load-bearing
    findings through a genuinely *different* mechanism (a different lead driver, or a
    different structure: one-process-driving-many / several-parallel / a-chain). Push for
@@ -1121,74 +1226,303 @@ what's still ambiguous from existing data alone. That list feeds step 5.5.
 
 *Output:* per-candidate evidence ledger, updated tiers, list of remaining ambiguities.
 
-### Step 5.5 — Interview
+### Step 5.5 — Interview (a forced multi-pass discrimination engine)
 
 The cheapest, fastest discriminator for many remaining ambiguities is the person's own
-direct experience. For each ambiguity that subjective experience could speak to,
-formulate sharp diagnostic questions whose answer would shift the candidate's tier.
-To make sure the questions are sharp, research deeper on the specific mechanisms and/or connectors and/or working hypotheses via `/research` + `/research-practitioner` before formulating them — looking not just for practitioner-grade knowledge, but also directly reported details from people confirmed to have experienced that hypothetical situation.
+direct experience. But a single improvised round of questions does not capture it — a real
+interview **generates** a large research-grounded question set, **subtracts** what the data
+already answers, asks the survivors in **ranked passes**, **re-ranks and re-targets** from
+the answers, and (when the result is messy or anomalous) **blindly recombines** all the data
+to surface hypotheses no one on the team named. A hard programmatic gate (the Step-6 gate,
+below) means a single shallow round cannot pass.
 
-**What makes a question sharp:**
+**The spine:** `GENERATE → SUBTRACT → PRUNE (Pass 1) → RE-RANK + TARGET → DIFFERENTIATE/RESURRECT
+(Pass 2) → [trigger?] RECOMBINE-BLIND → converge | loop`.
 
-- Research based.
-- It targets a specific candidate pathway, not general intake.
-- The answer would tilt at least one candidate up or down.
-- It's answerable from direct experience without needing a test.
-- It's specific enough to get a specific answer ("when the head-heaviness happens, what
-  foods or activities preceded it in the last 6 to 24 hours?") rather than open-ended
-  ("tell me about your headaches").
+**No question is ever improvised.** Every question asked at any pass is research-generated —
+either harvested from the Step-5 `## Differentiating diagnostic questions` sections, or
+produced by a real top-up `/research` + `/research-practitioner` dispatch. The orchestrator
+never authors interview questions from its own head.
 
-Sort questions by how much they would change the picture; present them in batches; wait
-for answers.
+#### Phase 0 — Generate (mandatory, research-grounded)
 
-**This step is iterative.** Answers feed back into step 5 (cross-check), which can
-produce a deeper second round of questions, or surface a new candidate that sends a
-piece back into step 3 (more routes) and then a third round of questions. Continue until
-interview answers stop substantially shifting the picture for the candidate in question.
+Precondition (already enforced at Step 5): every per-hypothesis research output carries a
+`## Differentiating diagnostic questions` section with per-question
+`expected-answer-per-hypothesis` (forks flagged), qualitative `sensitivity`, and
+qualitative `specificity`.
 
-**Per-candidate loop control.** Interviews aren't a global phase. For each candidate
-individually, ask: is this candidate still discriminable by subjective experience? If
-yes, keep interviewing for it. Has interviewing stopped shifting this candidate's tier
-substantially? If yes, this candidate is interview-saturated — move it to step 6. Some
-candidates saturate early; others stay interview-discriminable longer. Handle each
-candidate's switch independently. Also: where remaining ambiguity is between candidates
-that subjective experience genuinely can't separate (two different biological pathways
-producing the same felt experience), interviewing more is futile — go to step 6.
+**Harvest** those sections from every `research/<hn>-…-consensus.md` and
+`research/<hn>-…-practitioner.md` into `<root>/question-bank.md`, one `## Question pool — <Hn>`
+section per non-null hypothesis. Aim for the full research-generated set per hypothesis
+(the Haneen precedent is many questions per candidate, ~20–30 generated before subtraction),
+each row carrying its tags.
 
-Concretely: after each interview round, look at the candidate's ledger entry before and
-after the round. If nothing changed — no new supporting evidence, no new contradicting
-evidence, no tier movement, no new ambiguity surfaced — that's a "no-shift round." Log
-it as such in the decision log. Two no-shift rounds in a row for the same candidate
-means it's saturated by interview, regardless of how many more questions you could in
-principle still ask. Move it to step 6. One no-shift round isn't enough — a single round
-of poorly-aimed questions could explain it.
+**Top-up where thin.** Where a hypothesis's harvested set is thin, or a round-2 hypothesis
+has no harvested set yet, **dispatch a real paired `/research` + `/research-practitioner`
+top-up** writing `research/<hn>-questions-topup-…-consensus.md` and
+`research/<hn>-questions-topup-…-practitioner.md`, each carrying the same mandatory
+`## Differentiating diagnostic questions` section. The top-up is a genuine research dispatch
+— **never orchestrator-authored questions.** Harvest its output into the same pool section.
 
-**Interview substrate — pre-existing transcripts.** If `<root>/extracted/` already
-contains interview transcripts or daily symptom notes (i.e., the subject was interviewed
-before this run started, or the pack arrived with prior interviews), Step 5.5 reads from
-those as the primary interview substrate and generates questions only for the
-ambiguities the existing material doesn't resolve. Generated questions go into
-`<root>/question-bank.md` under "Pending" (waiting for the next live touchpoint with
-the subject) or "Deferred" (lower-priority, can wait). The procedure continues without
-blocking on live answers — pending questions are part of the deliverable and are
-surfaced in the offering as "to ask next time." If `<root>/extracted/` has no interview
-material *and* no live interlocutor is available, every Step 5.5 question is filed as
-Pending and the procedure exits at Step 7 with the offering plus the question list,
-marking the run "interview-blocked" in the decision log.
+#### Phase 1 — Subtract-from-data
 
-**Data hygiene — interview transcripts and daily notes are sources too.** They carry the
-same drift risk as any source: structured notes diverging from what the person actually
-said, with the drift then becoming "the data." So they go through `/extract-health-data`
-like any other source — an incremental update that preserves the verbatim original, tags
-every derived claim back to its source line, and re-derives the affected compiled views.
-That sub-skill owns the verbatim-original and traceability discipline; don't re-implement
-it here. Each new daily note triggers the same incremental update, then cross-check
-(step 5), then the loop re-enters at the affected step regardless of where the broader
-procedure was.
+For each pooled question, check it against `<root>/extracted/` and the records and mark its
+`disposition`: `answered (cite src)` / `partial` / `open`. Only `open` and `partial` questions
+survive to be asked. This is what turns ~20–30 generated questions per hypothesis into the
+~10–15 that are actually worth a person's attention.
 
-*Output:* interview rounds (verbatim source files plus traced structured notes), updated
-working hypothesis after each round, per-candidate status of "still interview-discriminable"
-versus "needs a discriminator."
+#### Pass 1 — Prune (high-sensitivity)
+
+Ask the top **high-sensitivity** questions plus any **fork** questions per live hypothesis —
+the questions whose NO meaningfully prunes a candidate. Batch to what the person can engage
+with well in one sitting (judged by their bandwidth and the discriminating value of each
+question — **not** capped at a fixed number like six; a rich case warrants more, a tired person
+fewer). Wait for answers. NO answers prune; a YES **strengthens but never confirms** — only
+timing evidence and an on-off-on rechallenge prove causation at N=1 (the existing rule).
+
+#### Reflect back + confirm (mandatory, before any re-ranking)
+
+After each pass, **reflect the answers back to the person in bullet points — the key results and data
+as you heard them — and get their confirmation or correction before re-ranking anything.** This is not
+optional politeness; it is an error gate. Interview answers are spoken, compressed, and easy to mishear
+(a single misread — e.g. "the belching started *at* the retreat" when the person said it started *a
+month or two after* — silently corrupts onset-locking and every downstream tier). The person is the only
+one who can catch that, and only if you show them what you recorded. So: list what you heard per answer,
+flag anything you inferred vs were told, and ask "did I get this right?" Correct the record from their
+reply, then proceed. A reflected-back answer the person confirms is hardened evidence; an unconfirmed
+paraphrase is a liability.
+
+**Capture a confidence % + provenance per answer (D7) — this sets the answer's authority.** Interview
+answers are top-authority evidence (the no-override rule, register §"Authority is a third axis"), but not all
+answers are equally reliable, and **certainty is not reliability.** For each answer, capture two things and
+record them with the observation in `working-truth.md`'s `## Top-authority observations`:
+- a **confidence as a percentage** — *always a %, never a 1–5 scale* (ask "how sure are you, as a rough
+  percent?");
+- the answer's **provenance**, captured by asking in plain language: *how long ago was this? how sure are you
+  of the memory? is this from memory, or from your notes / records? or is it something you're assuming or
+  inferring rather than something you directly experienced?* Record one of: `from-notes`,
+  `clear-recent-memory`, `hazy-memory`, `inference`.
+
+Do **not** use a "directly-experienced vs recalled" axis — you always recall even something you directly
+experienced, so it is not a clean boundary. Weight (and authority under D1) is set by **provenance + the %
+together**: a from-notes/records or recent-clear-memory answer weights high; a hazy long-ago memory, or an
+inference/assumption, weights **down even if the person states high confidence.** This feeds the persisted
+confidence band (D2). Full axes and tier-ceilings: `references/rubrics/self-report-pattern.md`.
+
+**Conduct — ask the questions directly.** A person who came to understand their body will answer however
+many questions the investigation needs. Do not pad questions with apology, time-anxiety, or "if it's
+quick / sorry to bother / I know you're busy" hedging, and do not shrink the set to seem fast — that
+underserves them. Ask plainly. Cap each round at ~10 questions (a readable batch), and make each question
+a distinct discriminating axis (see Pass 1 — dedupe the pool so you are not asking the same axis five
+ways). Thoroughness over speed: the cost that counts is a missed discriminator, never a few more honest
+questions.
+
+**Never force a false either/or — offer the open option.** When a question contrasts two patterns ("many
+small meals vs few large," "morning vs evening," "better vs worse after X"), do not make the person pick one
+of two when the truth may be **neither, both, or a third pattern.** Always include the open alternative —
+"…or is it something else / neither / it varies / you're not sure?" A forced binary manufactures a
+data-point the person didn't actually have, which then corrupts the ledger. The dimension is the question;
+the two named patterns are only examples of where on it the answer might land.
+
+**Ground every question in what is already known.** Before asking, check the question against
+`medical-history.md`, the diet/intake on file, and the available test list — and drop or rewrite any
+question the known context already moots. Asking someone who eats a near-identical diet every day to
+"compare big-meal vs small-meal days," or someone who never eats between meals to "eat at the symptom
+peak," or asking to "track symptoms against a test" when only two tests exist, wastes the person's
+goodwill and signals you didn't read their file. A question must be answerable *given this person's
+actual life*, not a generic patient's.
+
+#### Re-rank + target
+
+Update the Step-5 ledger (`step5-cross-check.md`) from the answers and re-rank the hypotheses
+by evidence weight (anti-escalation rule intact — confidence at the end of the round may not
+exceed confidence at the start unless new biological evidence justifies it). Then select the
+Pass-2 questions per candidate by its post-Pass-1 state:
+
+- **Eliminated and conclusively so** (a high-sensitivity NO, aperture adequate) ⇒ **stop**
+  that candidate; no Pass-2 questions for it.
+- **Eliminated but not conclusively** (weak NO, or a NO whose aperture doesn't fully cover the
+  candidate) ⇒ pick **falsification-framed resurrection** questions — phrased to give the
+  candidate a fair chance to come back, never to lead the person toward reviving it.
+- **Co-strengthened across several candidates** (two or more rose together) ⇒ pick
+  **high-specificity / fork** questions that separate the co-leaders — the shared-question /
+  different-expected-answer items are the sharpest separators.
+
+#### Pass 2 — Differentiate / resurrect (+ anomaly capture)
+
+Ask the selected Pass-2 questions **from the existing bank** (no new research needed for Pass 2
+itself; new research is only triggered by a *new hypothesis* — see recombination). Capture, in
+a `## Anomalies` section, any answer that fits **no** current hypothesis, is internally
+contradictory, or just doesn't sit right — do not discard it to keep the model tidy; a
+weird answer is often the thread to a missed candidate.
+
+#### Recombine-blind (triggered, not mandatory) — a NEW-HYPOTHESIS GENERATOR, never a synthesizer
+
+Trigger this when Pass 2 came out **messy** — no clean discrimination, co-leaders still
+unseparated, or no candidate reaches a confident tier — **OR** when ≥1 anomaly answer suggests
+something outside the current hypothesis set.
+
+**Its job is narrow and additive.** The recombination agent exists to answer ONE question: *given all
+the evidence, is there a process the current hypothesis set does NOT already name?* It is a generator of
+**candidate new hypotheses**, nothing more. It must **NOT** re-rank, weight, or issue verdicts on the
+existing candidates; **NOT** demote or promote anything; **NOT** synthesize the step or declare what the
+answer is. (The cross-check, Step 5, is the synthesizer — never this agent.) If it finds nothing the set
+is missing, the correct output is "**no new candidate**." Treating its output as the step's synthesis —
+or letting it pass judgement on existing hypotheses — is a defect; that misuse is exactly how an
+unverified guess once got propagated as a finding.
+
+**Feed it structured, dated facts — not raw files to timeline itself.** The hallucination risk is highest
+when the agent must reconstruct a timeline from raw documents (it will align two facts from different
+dates and invent a correlation). So the orchestrator first builds a clean input packet:
+- a **normalised observation list** — each load-bearing fact written as one line with its **source and
+  date already attached** (`<observation> [src: <file>, <value/date>]`), so the agent reasons over
+  pre-dated facts and never has to derive timing itself;
+- the **existing hypothesis names only** (so it knows what "new" means) — **without** their tiers,
+  rankings, or verdicts (so it is not anchored);
+- the task: "Propose any process these observations require that is NOT already in the named list. For
+  each, cite the specific observations that demand it. If none, write 'no new candidate.'"
+
+**Anti-hallucination output contract (enforced in the prompt and checked on return):**
+- **Every assertion carries an inline citation** to a specific datum (`[src: <file>, <exact value/date>]`).
+  An uncited assertion is not allowed in the main body — it goes in a fenced **"speculative — do NOT
+  weight"** section or not at all.
+- **Temporal / causal claims are high-risk and gated:** any "coincided with / rose after / best while X
+  was highest / improved when Y" claim must cite **both** dated endpoints and show they actually
+  co-occur. If both dates are not in the record, the claim is **forbidden** — write "timing unknown"
+  instead. (This is the exact failure to design out: do not infer a correlation by aligning two undated
+  or differently-dated facts.)
+- It states only what the evidence supports; it does not "explain everything."
+
+**Verification gate before any use.** The orchestrator (or a dispatched verifier pass) checks that **every
+cited claim resolves to the actual datum** in the named source before anything from the recombination file
+is used; any claim that fails is struck. Nothing from this agent is written into a gated artifact
+(`step5-cross-check.md`, `step6-prioritize.md`, `offering.md`) as a weighted finding. A genuinely new,
+verified candidate **re-enters through the normal pipeline** — a paired **round-2 `/research` +
+`/research-practitioner`** dispatch ⇒ re-entry at **Step 3** (routes) and **Step 4.5** (hypothesis-set),
+where it then earns its own `## Differentiating diagnostic questions` and Phase-0 harvest and is tiered by
+the cross-check like any other hypothesis. Record the outcome (new candidate + verification result, or "no
+new candidate") in `## Recombination-check`. Per "No summaries, ever," the agent writes
+`<root>/recombination-<n>.md` and returns done + path.
+
+#### Converge / loop
+
+Stop interviewing when **no pair of live candidates is subjectively separable** any further,
+recombination yields nothing new, and anomalies are either explained or explicitly parked.
+Two guards prevent infinite looping:
+- **Per-candidate two-no-shift-rounds.** After each round, compare the candidate's ledger entry
+  before and after. If nothing changed — no new supporting/contradicting evidence, no tier
+  movement, no new ambiguity — that's a **no-shift round**; log it. Two no-shift rounds in a row
+  for the same candidate ⇒ it is interview-saturated; move it to Step 6. One isn't enough (one
+  poorly-aimed round could explain it).
+- **Hard pass-ceiling.** A run may not exceed a small fixed number of full passes
+  (default 4); reaching it forces convergence to Step 6 with whatever separation exists, the
+  remainder handed to the discriminator design. Complexity sets the *minimum* (≥2 passes, gated);
+  the ceiling sets the maximum.
+
+**Per-candidate, not global.** Passes aren't a single global phase — some candidates saturate at
+Pass 1 while others stay interview-discriminable into Pass 3. Handle each candidate's switch to
+Step 6 independently. Where two candidates are two biological pathways producing the *same* felt
+experience, subjective report genuinely can't separate them — stop interviewing that pair and let
+Step 6's discriminator design do it.
+
+**Anti-leading-question guard (applies to every pass, hardest at resurrection).** Self-report bias
+bites most when a question telegraphs the answer the investigation is hoping for. Before asking any
+question — especially a resurrection question, where the pull to revive a favoured candidate is
+strongest — check it does not name the expected answer, the condition, or the mechanism. Describe
+the dimension; let the person fill it in.
+
+**Interview substrate — pre-existing transcripts.** If `<root>/extracted/` already contains
+interview transcripts or daily symptom notes (the subject was interviewed before this run, or the
+pack arrived with prior interviews), those are the primary substrate: harvest answers from them in
+Phase 1's subtract step (each pooled question they answer is marked `answered (cite src)`), and
+only `open`/`partial` questions survive to be asked live. Questions with no live touchpoint yet are
+kept in their pool with `disposition: open` and surfaced in the offering as "to ask next time."
+
+**Interview-blocked — no live interlocutor.** If there is no live interlocutor *and* no
+pre-existing interview material to subtract against, a multi-pass interview cannot run. Write the
+escape marker `INTERVIEW-BLOCKED — <reason>` as the **first line** of `question-bank.md`, leave the
+harvested pools in place as the "to ask next time" deliverable, and proceed to Step 6 / Step 7 with
+the offering plus the question list. Symmetrically, if Pass 1 genuinely saturates every live
+candidate at once (every pair either separated or proven inseparable, no anomalies, no
+recombination trigger), write `INTERVIEW-SATURATED-AFTER-PASS-1 — <reason>` as the first line. Both
+markers are the legitimate ways the Step-6 gate's ≥2-pass requirement is satisfied without two
+passes — they are not silent skips; each names its reason and leaves the pools on disk.
+
+**Data hygiene — interview transcripts and daily notes are sources too.** They carry the same drift
+risk as any source. So they go through `/extract-health-data` like any other source — an incremental
+update that preserves the verbatim original, tags every derived claim back to its source line, and
+re-derives the affected compiled views. That sub-skill owns the verbatim-original and traceability
+discipline; don't re-implement it here. Each new daily note triggers the same incremental update,
+then cross-check (Step 5), then the loop re-enters at the affected step.
+
+#### `question-bank.md` — machine-checkable contract
+
+`question-bank.md` is the deliverable of Step 5.5 and the surface the Step-6 gate verifies. It
+contains, in this structure:
+
+- **Escape markers (first line only, when applicable):** `INTERVIEW-BLOCKED — <reason>` or
+  `INTERVIEW-SATURATED-AFTER-PASS-1 — <reason>`. Either one closes the ≥2-pass requirement
+  legitimately.
+- `## Question pool — <Hn>` — one per non-null hypothesis, holding the harvested (and topped-up)
+  questions as rows: `q-id | text | expected-answer-per-hyp | sensitivity | specificity |
+  disposition (answered | partial | open) | src-if-answered`.
+- `## Pass log` — one `### Pass N` block per pass (N ≥ 1), each recording the questions asked, the
+  person's answers, the resulting tier movements, and any no-shift flags.
+- `## Anomalies` — answers that fit no current model (may be empty, but the section exists).
+- `## Recombination-check` — a line `triggered: yes/no — <reason>`; if `yes`, the new-candidate
+  verdict and a pointer to `recombination-<n>.md`.
+
+The Step-6 gate (see the required-artifact contract) blocks the Write of `step6-prioritize.md`
+unless this file shows: a `## Question pool — <Hn>` section for each non-null `Hn`, dispositions in
+use, **≥2 `### Pass N` blocks**, and a `## Recombination-check` entry — OR an escape marker on the
+first line.
+
+*Output:* `<root>/question-bank.md` to the contract above (harvested pools, pass log, anomalies,
+recombination-check), plus the updated `step5-cross-check.md` ledger after each pass and a
+per-candidate status of "still interview-discriminable" versus "needs a discriminator."
+
+### Step 5.7 — Deepen & coherence-check (loop back to the subject's own data)
+
+Before prioritising, run a disciplined loop back to the subject's OWN already-collected data. The engine
+will **not** reliably do this depth unprompted — cross-check (Step 5) judges evidence direction, but it does
+not force the slow work of *understanding and integrating* the whole picture through each hypothesis before
+judging. This step does, and it replaces "confirm/refute against the data" with **deepen → coherence-check →
+strengthen/weaken/neutral.** Full contract: `references/coherence-map.md`. Output: `<root>/coherence-map.md`
+(its Write is gated; the Step-6 write is blocked until this file is complete).
+
+**The principle:** once hypotheses exist, return to the subject's own data and *understand* it **before**
+judging anything. Deepening is a distinct cognitive category from judging and must come first, or the
+judgment is biased toward whatever you already lean to. The subject's own data is top authority (register
+§"Authority is a third axis"), so it is the thing to keep returning to.
+
+**The loop, per live hypothesis (a few iterations):**
+
+1. **DEEPEN — understand first, do NOT judge yet.** Ask *"IF this hypothesis were true, how would we
+   understand it through this data?"* Go through the symptoms, each test, the **timeline and sequencing of the
+   tests**, the treatments and their dates, and work out what each piece would *mean* under the hypothesis —
+   some data is silent, some speaks. This reuses the test-result-anchored mechanism maps already built early
+   (Dm, Step 2); where a mechanism is still shallow, dispatch a paired `/research` + `/research-practitioner`
+   to deepen it. Record per-hypothesis notes under `## Deepening — <Hn>`.
+2. **COHERENCE / DISCREPANCY hunt** across symptoms × tests × timeline × treatments — surface **every**
+   discrepancy that demands an explanation, and record each under `## Discrepancies` either with a mechanism
+   explanation **or** tagged `OPEN-GAP` (the cheapest move to close it). Never silently drop a discrepancy to
+   keep the model tidy. *(Worked example: the symptoms were already present — arguably worse — in 2022, yet
+   the 2024 stool looked worse while the person felt better; that disconnect must be explained — e.g. "the
+   stool test does not measure the small bowel, so the 2024 colonic worsening is a correlation, not the
+   symptom driver" — cross-checked against the treatment dates and the resistance profile of the organisms
+   that grew between the two tests.)* Each `OPEN-GAP` is also written to `working-truth.md`'s `## Open gaps`.
+3. **JUDGE — strengthen / weaken / neutral**, per hypothesis, only now, under `## Verdicts`, each tied to the
+   deepening that justifies it. Update the `working-truth.md` confidence bands (D2) from these verdicts —
+   honouring the anti-escalation rule (a band *increase* must cite the new evidence that justified it).
+4. **LOOP** until the mechanism map is coherent end-to-end or the remaining discrepancies/gaps are clearly
+   pinpointed.
+
+A dispatched **coherence-auditor** (Step 7 council pattern) later checks the discrepancies were genuinely
+addressed and the verdicts actually follow from the deepening. Lens-agnostic (D9): in the OPTIMIZE lens the
+same loop runs against the person's measured baselines and response data.
+
+*Output:* `<root>/coherence-map.md` (`## Deepening — <Hn>`, `## Discrepancies` with every line explained or
+`OPEN-GAP`-tagged, `## Verdicts`), plus the updated `working-truth.md` bands and open-gaps.
 
 ### Step 6 — Prioritize
 
@@ -1219,6 +1553,19 @@ its result would change. *"If the result is A we'd consider X; if B we'd conside
 A and B lead to the same place, the discriminator earns nothing — drop it. The same gate
 kills distinctions that don't matter: *"what difference would telling these two apart
 actually make to what the person could try?"* If none, stop trying to separate them.
+
+**Already-tried check — but effect is STATE-DEPENDENT, not "never again" (D6).** Before proposing any
+intervention, check it against the `## Tried interventions` log in `working-truth.md` (and the
+treatment-response history). But an intervention's effect is a **function of the system STATE when it was
+applied** — probiotics taken *during a kill-phase* (antimicrobials wiping them out, aimed at the wrong
+organisms) are not the same experiment as probiotics taken *during a gut-rebuilding phase*. Same
+intervention, different state, different prediction. So the ledger records **"tried X IN STATE S → result,"**
+not just "tried X → result"; sequencing is a first-class variable. **Re-proposing a tried-and-failed
+intervention requires three things, each backed by real `/research` + `/research-practitioner` (not
+assertion):** (i) name the **different state S′**; (ii) give a **mechanism-grounded reason it failed in state
+S**; (iii) explain **why S′ changes the prediction.** Absent those three, it stays dropped. Conversely, a
+"didn't work" result is *data* (register §"Ignoring negative results"): record what state it was tried in and
+what that rules out, never just "tried, failed, next."
 
 **Test-sensitivity / aperture check — the discriminator must be able to detect the thing.**
 Before a test earns a slot, confirm it can actually return positive when the candidate is
@@ -1353,7 +1700,33 @@ investigate-audit` as the first line of each auditor's dispatch prompt** so
 primary sources, not the synthesizer's prose) plus the cross-subject-memory guard.
 Auditors receive: primary sources directly, the finish-
 line checklist below, and an explicit instruction to verify each item
-against primary sources (not against the synthesizer's prose).
+against primary sources (not against the synthesizer's prose). One auditor must
+additionally verify the **raw-mapping discipline**: that every structured/quantitative
+source was mapped point-by-point from the raw file (not from a summary), that the full
+shape/structure was carried through, and that any practitioner verdict on such a source was
+tested against that mapping rather than inherited — flagging any claim that traces only to a
+practitioner's one-word read or a sub-agent summary.
+
+**Three governance auditors join the council (semantic checks the hooks cannot do).** Alongside the register/
+raw-mapping auditors, dispatch these three against the produced artifacts — each `INVESTIGATE-ROLE:
+investigate-audit`, each verifying against primary sources + the ledger, not the synthesizer's prose. They
+**ride the existing `offering` token** — no new gate hook. Templates in `references/council/`:
+- **reconcile-auditor** (`dispatch-template-reconcile.md`) — checks every load-bearing claim against
+  `working-truth.md`: the no-override rule (D1), reconciliation with ESTABLISHED/PARKED entries (D4a), the
+  named own-data disconfirmer survived (D4c), value-of-information + already-tried-in-state (D4d/D6), and
+  parked-re-raise / un-justified-band-increase discipline (D2).
+- **veracity-auditor** (`dispatch-template-veracity.md`) — independently re-derives every quoted datum from
+  source and flags any that does not resolve or is mis-sequenced; **fails any temporal/correlation claim
+  whose two endpoints are not both dated in the record** (the fabricated-correlation failure, Dv).
+- **coherence-auditor** (`dispatch-template-coherence.md`) — checks `coherence-map.md`: discrepancies
+  genuinely addressed (not hand-waved), none silently dropped, and strengthen/weaken/neutral verdicts
+  actually follow from the deepening (D5).
+
+A `FAIL` from any governance auditor bounces the artifact to the step that owns the gap before the offering
+write proceeds. **The reconcile- and veracity-auditors are also the required semantic check before the
+Step-5 (`step5-cross-check.md`) and Step-6 (`step6-prioritize.md`) writes**, and the coherence-auditor before
+Step 6 — dispatched on the draft, their FAILs resolved, before the gated Write. (The hooks enforce the
+*structure* these auditors then check the *truth* of; see the required-artifact contract.)
 
 **Before anything goes out, run the pre-audit checklist (advisory — it is the synthesis
 agent's own pre-check, NOT the gate).** Passing it does **not** satisfy the finish-line gate;
@@ -1378,6 +1751,8 @@ step 5 (re-tier) or step 4 (re-form working hypothesis).
 - For each thing to learn: is it a trial or a test, and is that the right call?
 - Is every price, dose, source, and availability verified, or honestly tagged as an estimate?
 - Has confidence escalated anywhere across rewrites without new evidence?
+- Wherever a confidence % or band appears, is the D8 disclaimer present (these are an internal
+  prioritisation tool, not a measured real-world probability)?
 - Does the picture explain the natural experiments from step 1 that carry real weight (if any exist)?
 - For each load-bearing claim: has the inversion check been run, and would each claim
   actually have failed under the opposite observation?
@@ -1403,6 +1778,14 @@ The person-facing offering covers:
 
 - A plain-language picture of the leading interacting pathways, with honest confidence
   ("we think this is likely," "this one we're less sure about")
+- **Confidence-band disclaimer (D8) — required wherever any confidence percentage or band appears.**
+  Whenever the offering shows a confidence number or band (the `~80% / ~50% / ~15% / <5%` bands from the
+  ledger), attach a clear disclaimer, in substance: *"these percentages are an internal prioritisation tool.
+  We have no firm basis to claim they reflect true real-world probabilities; we don't know how closely they
+  track reality. We share them only so you can see how we're prioritising — not as a measured likelihood."*
+  Keep it register-clean (no outcome-promise or directive phrasing). The bands exist to rank possibilities
+  and to catch un-justified confidence increases (D2) — they are deliberately coarse and are not calibrated
+  probabilities, and the person is told so plainly.
 - The natural experiment the picture explains — usually the strongest evidence the
   person already has from their own body
 - Options they could consider trialing (low-risk, reversible), with what each option is
@@ -1451,16 +1834,32 @@ explicitly and log each verdict:
    "the diagnosis is uncertain") — only when attributing to a practitioner's record/writing ("records
    note X")**; no fresh assertion of a cause still being discriminated; **any directive or treatment-sequencing aimed at the person — in any phrasing or scenario, not just a
    matched keyword — is a register failure** (e.g. "before you take X," "start/stop Y"); high-consequence
-   flags are stated as information a clinician acts on, never as an instruction to the person. **Y / N.**
+   flags are stated as information a clinician acts on, never as an instruction to the person. **Also: wherever
+any confidence percentage or band appears, the D8 disclaimer is present** (the bands are an internal
+prioritisation tool, not a measured real-world probability) — audit-council-verified against the produced
+text. **Y / N.**
 
 All seven **Y** → write `<root>/offering.md`, log "finish-line pass" in the decision log,
-end the run. Any **N** → return to the step that owns the gap (1 → Step 4; 2 → Step 6;
-3 → Step 6 reorder; 4 → Step 6; 5 → Step 4 completeness audit; 6 → Step 6 hard-no pre-flight;
-7 → register rewrite per §"Register vocabulary," then re-audit), log the bounce, loop.
-If three consecutive bounces on the same N, write `<root>/RESUME.md` naming the
+then **surface the documents** (next paragraph). Any **N** → return to the step that owns the gap
+(1 → Step 4; 2 → Step 6; 3 → Step 6 reorder; 4 → Step 6; 5 → Step 4 completeness audit;
+6 → Step 6 hard-no pre-flight; 7 → register rewrite per §"Register vocabulary," then re-audit), log
+the bounce, loop. If three consecutive bounces on the same N, write `<root>/RESUME.md` naming the
 persistent gap and exit — never loop indefinitely.
 
-*Output:* `<root>/working-hypothesis.md` (technical) and `<root>/offering.md` (plain).
+**Surface the documents — writing the file is not the terminal act; delivering it is.** A run is
+**not done** when `offering.md` is written and a chat summary is narrated — that is the buried-
+deliverable failure the redesign exists to prevent. The definition of done **requires presenting the
+actual artifacts to the person**: open and show the **full person-facing `offering.md`** — its plain-
+language picture, the options-to-consider, the tests-to-consider, the symptom-relief levers, the
+high-consequence flags, the honest gaps, and the hard-no section — **not summarized**. Show the real
+sections, in the person's reading view, so the offering, hypotheses, tests, and relief levers are
+actually in front of them. Only after the documents are surfaced is the run complete. (If the run
+exits interview-blocked or on RESUME, surface whatever offering plus question-list exists, with the
+block plainly named.)
+
+*Output:* `<root>/working-hypothesis.md` (technical) and `<root>/offering.md` (plain), **with
+`offering.md` and its options / tests / symptom-relief sections opened and presented to the person —
+not summarized.**
 
 ### Step 8 — Iterate
 
@@ -1589,7 +1988,7 @@ the first decision-log entry — a run with no bootstrap entry was started incor
    integrator), and write `<root>/intra-project-conflicts.md` listing each
    conflict with source citations. The dispatch uses
    `subagent_type: general-purpose` and emits the file deterministically;
-   summary is for orientation, the file is the deliverable.
+   per "No summaries, ever," it returns only "done" + path and the orchestrator reads the file.
 
    This file is then included in every `investigate-synthesis` dispatch as
    `## Intra-project conflicts to resolve before synthesizing`. The synthesis
@@ -1611,7 +2010,9 @@ the first decision-log entry — a run with no bootstrap entry was started incor
      Load-bearing pathways / Honest gaps). These three are this file's own headers, not
      separate files. The header is "Candidate drivers," **not** "Connector candidates" —
      Step 4 forbids hunting "the connector"; the file enumerates drivers, it never crowns one.
-   - `question-bank.md` — empty stub (Asked / Pending / Deferred sections).
+   - `question-bank.md` — empty stub; Step 5.5 writes the interview to its machine-checkable
+     contract (per-hypothesis `## Question pool — <Hn>` sections, `## Pass log` with `### Pass N`
+     blocks, `## Anomalies`, `## Recombination-check`; or a first-line escape marker).
 
    The per-candidate fields that earlier versions held in a standalone
    `candidate-ledger.md` are now carried inside the step files that already produce
@@ -1626,6 +2027,12 @@ the first decision-log entry — a run with no bootstrap entry was started incor
    - `step5-cross-check.md` — empty stub; Step 5 writes the per-candidate evidence ledger.
    - `step6-prioritize.md` — empty stub; Step 6 writes the discriminator plan plus the
      symptomatic-relief / load-reducer track.
+   - `working-truth.md` — empty stub; the governance-of-truth ledger (authority-ranked, status-latched,
+     disconfirmation-pruned). Read first and updated last at every synthesis step (Steps 5, 5.5 re-rank, 6,
+     7, 8). Schema + the no-override (D1) / parking-and-re-raise (D2) / refuter (D3) / already-tried-state
+     (D6) rules live in `references/working-truth-ledger.md`. Lens-agnostic (also used by the OPTIMIZE lens).
+   - `coherence-map.md` — empty stub; the Step-5→6 deepen → coherence → strengthen/weaken/neutral loop
+     (`## Deepening — <Hn>`, `## Discrepancies`, `## Verdicts`). Contract in `references/coherence-map.md`.
    - `offering.md` — **DO NOT STUB.** The file is created only at Step 7
      finish-line pass, with its Write gated by an audit-council token issued
      by `audit-council-completion.sh`. Creating an empty stub at bootstrap
@@ -1657,6 +2064,25 @@ down to save effort violates the thoroughness directive and is blocked at the St
 may *also* dispatch one `/research` per Step-3 process for wide route enumeration; that is
 additive, not a substitute for the per-hypothesis paired dispatch.)
 
+**Every anomaly triggers a dedicated MECHANISM map before it is tiered (Dm) — standout findings most of
+all.** This generalises from "the largest-magnitude outlier" to **every out-of-bounds result**: each overgrown
+organism, each out-of-range lab / hormone / marker earns its own test-result-anchored mechanism map (Step 2,
+"Two kinds of mechanism map"), written to a `research/anomaly-<slug>-*` file and **scaled by degree-out-of-
+range** so the set stays tractable (the more extreme the value, the deeper the map). A standout / extreme
+value (e.g. a stool organism flagged hundreds of times its cutoff, the highest abnormality in the workup, or
+any result far outside its reference range) is the most important case of this rule, not a separate one — it
+earns the deepest paired `/research` + `/research-practitioner` mechanism dispatch that asks *what this thing
+actually does*:
+its biology, what it consumes and produces (gases, metabolites, proteases, mediators), where it acts
+(proximal vs distal), and the **high-variation tail** — the subtype/host/load conditions under which it
+shifts from bystander to driver. **Do not tier or weight a standout finding from the population average
+alone** ("usually a commensal," "often incidental"); in gut and multi-system pictures the inter-individual
+variation is large enough that the average is not evidence about *this* person. The mechanism map is what
+lets the finding be tiered honestly — as a real candidate or as genuinely benign — rather than waved off.
+This is also what makes the differentiating questions sharp: a question is only as discriminating as the
+mechanism understanding behind it, and **each question must target a distinct mechanism** (not five
+re-phrasings of one axis).
+
 **Source the edges, not only the consensus.** Alongside `/research`, dispatch
 `/research-practitioner` for the load-bearing mechanisms — practitioner-grounded,
 integrative, and self-experimentation knowledge that mainstream reviews may omit or dismiss.
@@ -1666,14 +2092,26 @@ never skipped for lacking consensus backing. The point is to surface the mechani
 consensus literature doesn't describe, which on complex pictures can be where the answer
 lies.
 
+**Include the biohacker / quantified-self / self-experimenter source class explicitly.** Among the edge
+sources the practitioner dispatch must reach are the **n-of-1 self-experimentation communities** — careful
+biohackers, quantified-self loggers, and self-experimenters who tracked an intervention against their own
+measured data and published the raw series and what moved. This is a distinct class from clinician
+practitioner reports: it is the closest external analogue to *this investigation's own method*
+(intervention × measured response at n=1), so it often carries the most directly transferable signal on
+dose, build-up, washout, state-dependence, and what a real response actually looked like. It is tiered
+honestly like any edge source (the rigour of a single self-experimenter varies enormously — apply the
+self-report-pattern rubric to their logs as you would to the subject's), flagged as edge, and **kept** —
+never dropped for lacking a trial. Instruct the `/research-practitioner` agent to seek these out by name
+where they exist.
+
 **How, concretely:** use the Agent tool with `subagent_type:
 general-purpose`, invoking the `/research` skill in the prompt. Send all the parallel
 calls in a single message (multiple Agent tool uses in one block — the harness runs them
 concurrently). Each agent's prompt names its output path explicitly:
 `<root>/research/<short-topic-slug>.md` (where `<root>` is the subject root established
-in bootstrap). The agent's returned summary is for orientation; the file is the
-deliverable. Instruct the agents with the tier system,
-encourage not rushing to conclusions, thinking like a Keegan level 5 person, and
+in bootstrap). Per "No summaries, ever," the agent returns only "done" + its file path and
+no summary; the orchestrator reads the research file itself. Instruct the agents with the tier system,
+encourage not rushing to conclusions, thinking with the nuance of a Keegan level 5 thinker, and
 approaching things systemically like a good scientist. Instruct them to report findings
 probabilistically and to issue no recommendations or treatment advice — research-layer
 mechanism and diagnosis labels are fine for naming the biology, but advisory or
@@ -1686,6 +2124,89 @@ thing on a topic), but they're marked clearly so they don't get weighted like pr
 evidence later. Each research output file must contain either an explicit "no sources
 flagged" line or one or more flagged-source entries.
 
+**MANDATORY named output — `## Differentiating diagnostic questions` (non-optional, mirrors
+the flagged-source requirement).** Every per-hypothesis research output — each
+`research/<hn>-…-consensus.md` AND each `research/<hn>-…-practitioner.md` — MUST contain a
+section titled exactly `## Differentiating diagnostic questions`. This is not a courtesy
+add-on; it is a required deliverable of the dispatch, enforced the same way the "no sources
+flagged" line is. Instruct each agent to populate it with **very specific, answerable-from-
+experience** questions — not mechanism prose and not general intake — that would let a person's
+own direct report tilt this hypothesis up or down against its rivals. The questions must be
+**grounded in direct patient/practitioner experience**, not mechanism alone: include the
+**direct patient-experience signatures** that real people confirmed to have the candidate
+actually report (the texture, timing, and triggers they describe in their own words), drawn
+from the practitioner-grounded and lived-experience sources the dispatch is already pulling.
+Each question carries three tags:
+- `expected-answer-per-hypothesis:` — what answer each live hypothesis would predict (so the
+  question's discriminating direction is explicit). Where two hypotheses share the question
+  but predict **different** answers, flag it `fork` — these shared-question/different-answer
+  items are the highest-value discriminators and the practitioner agent should hunt for them
+  deliberately.
+- `sensitivity:` — qualitative (high / moderate / low): how reliably a *true* candidate
+  produces a YES (a high-sensitivity question is one whose NO meaningfully prunes the candidate).
+- `specificity:` — qualitative (high / moderate / low): how uniquely a YES points at *this*
+  candidate versus its siblings (a high-specificity question separates co-leaders).
+
+Phrase every question **non-leading** — describe the dimension and let the person fill it in
+("when the head-heaviness happens, what preceded it in the prior 6–24 hours?"), never plant the
+expected answer ("does it get worse after gluten, like in coeliac disease?"). This section is
+what Step 5.5 Phase 0 *harvests*; an output missing it forces a top-up dispatch.
+
+**No summaries, ever — synthesise only from the raw files (forcing function, not a
+preference).** This governs EVERY dispatched sub-agent in this procedure without exception —
+extraction, blind builders, enumeration, research, judges, auditors, diff agents, all of
+them. Each agent writes its full work to its named file(s) and **returns only a completion
+signal — "done" plus the path(s). No agent returns a summary, headline, orientation,
+"key findings," or any compressed account of its work.** A summary is a reduction, and a
+reduction is where structure and signal silently die — so the lazy path is removed by
+construction rather than left to discipline. Correspondingly, **the orchestrator ALWAYS
+builds its synthesis by opening the raw source documents and the deliverable files
+themselves — in every situation, for every source it weighs.** It never synthesises from,
+quotes, or relies on an agent's chat return, because there is none to rely on. Concretely:
+before any source, test, or sub-agent output influences a step, the orchestrator must have
+opened the actual file/document and read it. Any per-step instruction elsewhere in this
+skill that says an agent "returns a summary for orientation" is superseded by this rule —
+agents return "done"; the orchestrator reads the file. (The sole permitted non-"done"
+return is a *process* failure — illegible/corrupt source, a tool error — never a content
+summary.) The audit (Step 7) verifies this was honoured: every quantitative or structured
+source mapped point-by-point from the raw file, and any practitioner conclusion tested
+against that mapping rather than inherited from it.
+
+**The four hard rules (non-negotiable, restated so they cannot be read as aspirational):**
+1. **No agent, anywhere in this workflow, ever returns a summary.** Every dispatched
+   sub-agent — extraction, builder, enumeration, research, judge, diversity-judge,
+   spot-check, auditor, diff, recombination — returns ONLY `done` + the output path(s).
+   If an agent returns a summary/headline/"key findings" *anyway* (despite the instruction),
+   that summary is **discarded unread** — it does not enter synthesis, the decision log, or
+   any artifact. The orchestrator opens the file instead.
+2. **The orchestrator never asks an agent for a summary** — not in the dispatch prompt, not
+   in a follow-up. Every dispatch prompt must carry the "return only done + path" instruction
+   verbatim.
+3. **The orchestrator always reads the actual document.** Before any file's content
+   influences any step — cross-check verdict, tier, discriminator, offering line — the
+   orchestrator must have opened that file with the Read tool **in this session** and read it
+   in full (not grep-extracted a section, not relied on a task-notification's text, not
+   recalled it from an earlier turn). Grep/awk may *locate*; they do not *substitute* for the
+   Read.
+4. **No required document is left unread.** A gated synthesis step may not proceed while any
+   of its required raw inputs is still unread. "I'll read it later / I have the gist" is the
+   precise violation this rule forbids.
+
+**Read-before-gated-write enforcement (the missing gate — close it).** The existing
+required-artifact contract checks that the upstream files *exist*; it does NOT check that the
+orchestrator *read* them, which is how synthesis-from-summary slips through. Therefore: before
+writing any gated synthesis file (`step5-cross-check.md`, `step6-prioritize.md`,
+`working-hypothesis.md`, `offering.md`, `hypothesis-set.md`), EVERY required raw input for that
+step — every `research/<hn>-*-consensus.md` and `research/<hn>-*-practitioner.md`, every
+`research/anomaly-<slug>-*.md`, every `graphs/builder-*.md`, every relevant `extracted/*` —
+must already be in the session read-log. The `investigate-health-write-check.sh` hook is to be
+extended to fail-closed on this: parse the required-artifact list for that step and **deny the
+write naming any required file that is not in the read-log** (the same read-log the existing
+`[src:]` check already consults). Until the hook ships, the orchestrator enforces it manually
+as a pre-write checklist and records in the decision log: "read-before-write check: N required
+files, N read, 0 unread." A non-zero unread count blocks the write. (Patch tracked in
+`corrections.md` 2026-06-18.)
+
 **State on disk, always.** The investigation's working state lives in files under
 `<root>/`, not in the conversation:
 
@@ -1696,9 +2217,18 @@ flagged" line or one or more flagged-source entries.
 - `<root>/shared-node-inventory.md` — complete shared-node table + addressable subset (Step 4)
 - `<root>/hypothesis-set.md` — competing hypotheses, each with signature / falsifier /
   discriminator (Step 4.5)
+- `<root>/working-truth.md` — the Working-Truth Ledger: authority-ranked own-data observations,
+  status-latched hypotheses (LIVE / PARKED / ESTABLISHED) with persisted confidence bands, refuters,
+  tried-in-state interventions, parked hypotheses + their re-raise conditions, and open gaps. Read first /
+  updated last at every synthesis step. Spec: `references/working-truth-ledger.md`
+- `<root>/coherence-map.md` — the Step-5→6 deepen → coherence → strengthen/weaken/neutral loop output
+  (`## Deepening — <Hn>` / `## Discrepancies` / `## Verdicts`). Spec: `references/coherence-map.md`
 - `<root>/step5-cross-check.md` — per candidate, support / contradict / silent / tier /
   verification / impact / practitioner-claim-rubric / ruled-out-gate-result
-- `<root>/question-bank.md` — interview questions Asked / Pending / Deferred
+- `<root>/question-bank.md` — the multi-pass interview to its contract: per-hypothesis
+  `## Question pool — <Hn>` (harvested + topped-up, with dispositions), `## Pass log`
+  (`### Pass N` blocks), `## Anomalies`, `## Recombination-check` — or a first-line escape marker
+  (`INTERVIEW-BLOCKED` / `INTERVIEW-SATURATED-AFTER-PASS-1`)
 - `<root>/step6-prioritize.md` — trial-vs-test decisions (build-up + washout + hard-no +
   consequence-if-ignored per trial) plus the symptomatic-relief / load-reducer track
 - `<root>/research/` — outputs from dispatched `/research` agents
@@ -1717,7 +2247,12 @@ gates the synthesis Writes on the existence of the upstream artifacts that *prov
 dispatches actually happened*. This is the harness that forces the sequence. The contract:
 
 - **Step 2 →** `step2-mechanism-map.md` contains a `## Processes` section enumerating each
-  process as a `**Pn —` line (so the required builder-graph count is machine-readable).
+  process as a `**Pn —` line (so the required builder-graph count is machine-readable). It also contains a
+  `## Anomalies` section enumerating each out-of-bounds / anomalous result as an `**An —` line carrying a
+  `[slug: <slug>]` token (so the per-anomaly mechanism-map count is machine-readable), OR — when there are
+  genuinely no out-of-bounds results — the single line `NO OUT-OF-BOUNDS RESULTS — <reason>`. Each enumerated
+  anomaly requires a paired test-result-anchored mechanism map at `research/anomaly-<slug>-*.md` (Dm),
+  checked at the Step-5 gate.
 - **Step 3 →** one `graphs/builder-<slug>.md` per process (blind, `INVESTIGATE-ROLE: builder`).
 - **Step 4.5 →** `hypothesis-set.md` enumerates the hypotheses as `### Hn —` headers; the
   parallel-null hypothesis's header contains the word "null" (so the gate exempts it from the
@@ -1727,7 +2262,26 @@ dispatches actually happened*. This is the harness that forces the sequence. The
   every non-null `Hn`, both `research/<hn>*consensus*.md` and `research/<hn>*practitioner*.md`;
   (b) `hypothesis-diversity-judge.md` (the diversity judge's verdict); (c)
   `research/practitioner-claim-rubric.md` (the consolidated practitioner-claim judge-council
-  verdicts, OR an explicit `NO LOAD-BEARING PRACTITIONER CLAIMS — <reason>` line).
+  verdicts, OR an explicit `NO LOAD-BEARING PRACTITIONER CLAIMS — <reason>` line);
+  (d) `working-truth.md` exists and is non-empty (the governance ledger must be instantiated before any
+  synthesis claim is written — D11 state-on-disk);
+  (e) for each `[slug: <slug>]` enumerated in `step2-mechanism-map.md`'s `## Anomalies` section, a
+  `research/anomaly-<slug>-*.md` test-result-anchored mechanism map exists (Dm) — satisfied without any such
+  file only when the `## Anomalies` section is the `NO OUT-OF-BOUNDS RESULTS — <reason>` line.
+- **Step 6 gate — the Write of `step6-prioritize.md` is BLOCKED unless `question-bank.md` shows:**
+  (a) a `## Question pool — <Hn>` section for every non-null `Hn` in `hypothesis-set.md` (the
+  harvested research-generated pool; any thin-set top-up dispatch leaves its
+  `research/<hn>-questions-topup-*` files on disk); (b) dispositions in use
+  (`answered`/`partial`/`open`); (c) **≥2 `### Pass N` blocks** under `## Pass log` (the forced
+  minimum-two-pass interview); (d) a `## Recombination-check` entry. The gate is satisfied without
+  two passes ONLY via a first-line escape marker (`INTERVIEW-BLOCKED — <reason>` or
+  `INTERVIEW-SATURATED-AFTER-PASS-1 — <reason>`). This mirrors the Step-5 gate (same non-null `Hn`
+  parse, same fail-closed deny naming what is missing) and forces the multi-pass interview redesign
+  so a single shallow round cannot reach Step 6. **The Step-6 write is additionally blocked unless:** (e)
+  `working-truth.md` exists and is non-empty; (f) `coherence-map.md` exists with its `## Deepening`,
+  `## Discrepancies`, and `## Verdicts` sections present AND **no discrepancy line left un-tagged** — every
+  `- ` bullet under `## Discrepancies` must carry either an `OPEN-GAP` tag or a `:`-separated explanation.
+  This forces the Step-5.7 deepen→coherence loop (D5) to actually run before prioritisation.
 - **Step 7 gate — the Write of `offering.md` is BLOCKED unless:** the audit-council `offering`
   token exists (existing gate) AND `extracted/spot-check.md` exists (the independent extraction
   spot-check).
@@ -1752,6 +2306,13 @@ synthesis does NOT** — so when synthesis is inline, follow this list deliberat
    word-forms** — *established / studied / mechanistically plausible / temporal-only / speculative* —
    so no `Tn` token exists at all. If you must use `Tn`, put the citation right next to it. Never
    leave a bare `Tn` in prose.
+1b. **Temporal / sequence / correlation claims carry a source + DATE (write-check Check 7, Dv).** Any
+   sentence asserting that two things co-vary or follow each other over time — *coincided with, correlated
+   with, tracks with, rose/fell after, rose/fell when, improved/worsened when, peaked when, best/worst/
+   highest/lowest while* — must carry **both** a date token (a year, a month name, or `dd/mm`) **and** a
+   `[src: …]` / `[ledger: …]` citation in the *same* sentence. A correlation claim whose two endpoints are
+   not both dated is the fabricated-correlation failure (Dv) — write "timing unknown" instead, or add the
+   dated source. The veracity-auditor re-derives it from source at Step 7.
 2. **Never use `Tn`-style codes for non-tiers.** Code trials as **TR1…TRn** and waves as **W1…Wn** —
    NEVER `T1…Tn` or `T2/T3` (they collide with the tier regex). Discriminators as `D1…Dn` are fine.
 3. **`[src:]` must resolve.** The filename must be a file you have **Read this session** (basename
@@ -1840,6 +2401,9 @@ hold:
    alongside, with a plain description of what each possible result might suggest.
 5. Anything the working hypothesis doesn't yet account for is named plainly. Honest gaps
    are part of what's offered, not a failure of the procedure.
+6. **The offering has actually been surfaced to the person** — `offering.md` and its options /
+   tests / symptom-relief sections opened and presented, not left on disk under a chat summary.
+   Writing the file is not the finish line; delivering it is.
 
 If a connected picture can't be reached, what gets offered instead is **a clear
 statement of what is still unexplained, and what evidence — a test, an observation, an
