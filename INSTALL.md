@@ -31,17 +31,19 @@ openbiohack/
 ├── LICENSE / NOTICE / CITATION.cff
 ├── skills/               # the engine and its siblings
 │   ├── investigate-health/      # the investigation engine (the spine)
-│   ├── extract-health-data/     # turns raw records into structured, traceable data
+│   ├── extract-health-data/     # turns raw records into structured, traceable data (incl. scripts/)
 │   ├── research/                # first-principles mechanism/claim research
 │   ├── research-practitioner/   # practitioner-grounded deep research
 │   └── product-search/          # ingredient-by-ingredient product vetting
+├── hooks/                # the enforcement layer (register + gated-write guards) + hooks.json
 ├── templates/            # starting files for your private, local memory
 │   ├── symptom-log.md  experiment-log.md   # the ongoing N=1 layer
 │   ├── medical-history.md  genetics.md  MEMORY.md  corrections.md
-└── references/           # read by the system as it works
-    ├── optimization.md          # the optimize lens (4-layer ceiling + forward-trace)
-    ├── high-value-levers.md     # candidate levers catalogue (examples, not prescriptions)
-    └── n1-protocol.md           # how to run a careful self-experiment
+├── references/           # read by the system as it works
+│   ├── optimization.md          # the optimize lens (4-layer ceiling + forward-trace)
+│   ├── high-value-levers.md     # candidate levers catalogue (examples, not prescriptions)
+│   └── n1-protocol.md           # how to run a careful self-experiment
+└── build/                # how the bundle is regenerated from the canonical engine (maintainers)
 ```
 
 ---
@@ -60,6 +62,16 @@ cp -R skills/* ~/.claude/skills/
 
 Verify they're picked up: start `claude` in any folder and the `/investigate-health`, `/extract-health-data`,
 `/research`, `/research-practitioner`, and `/product-search` skills should be available.
+
+### The enforcement hooks (important — this is what keeps the engine rigorous)
+
+`investigate-health`'s discipline (the non-directive register reminder on every turn, the gated-write checks,
+the "read the document, don't synthesise from a summary" guard) is enforced by the scripts in `hooks/`.
+Installed as a **Claude Code plugin**, `hooks/hooks.json` registers them automatically (paths resolve via
+`${CLAUDE_PLUGIN_ROOT}`) — nothing to do. If you instead copied the skills in manually, the hooks won't be
+active until you register them: merge the entries from `hooks/hooks.json` into your project's
+`.claude/settings.json` (pointing the commands at wherever you put `hooks/`). The engine still *runs* without
+them, but you lose the guardrails — so for real use, install the plugin (or register the hooks).
 
 ---
 
