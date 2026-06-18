@@ -132,7 +132,9 @@ Open an issue, start a discussion, or send a pull request. New regression/eval c
 
 - Educational/research only. **Not medical advice, not a diagnosis, not a medical device.**
 - It speaks in possibilities and never tells you or your clinician what to do. Every option is something to **discuss with a qualified clinician** before acting.
-- It is designed around **low-risk, reversible** options and will flag anything that needs medical evaluation — but it can be wrong, and it cannot see everything. **If something might be serious or urgent, seek medical care.**
+- **Like any AI, it can be confidently wrong — so don't follow it blindly.** Treat everything it produces as a starting point to *check*, not an answer to act on. **Verify the claims that matter yourself** — read the primary sources and studies it points to, more than once if it's important — and take them to your clinician. You'd apply that caution to any general AI model; apply it here too. (Every document it generates carries this reminder at the bottom, on purpose.)
+- It is designed around **low-risk, reversible** options and will flag anything that needs medical evaluation — but it cannot see everything. **If something might be serious or urgent, seek medical care now.**
+- **You remain in charge of every decision.** This is a thinking tool to make *you* more capable — not something to hand your judgment to.
 - Your data stays with you — it runs locally in your Claude Code; the authors receive nothing unless you choose to send feedback.
 
 ## Credits & license
