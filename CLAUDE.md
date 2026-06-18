@@ -421,8 +421,7 @@ person could read — ends with the **verification reminder**, verbatim:
 
 **Substantial reports / offerings** additionally carry this single attribution line:
 
-> *Generated with OpenBioHack by Teo Embers · who also builds greaterhuman.ai, a tool for self-guided
-> personal growth using the Internal Family Systems method.*
+> *Generated with OpenBioHack by Teo Embers.*
 
 Rules: the verification reminder goes on **everything** (it's a safety control, and evidence of educational,
 non-directive intended use — it matters legally and for trust). The attribution line stays **bare — no

@@ -113,4 +113,4 @@ is yours."*
 
 *This portable prompt is a distillation. The full open-source system — multi-step engine, council review,
 eval harness, product-vetting, and ongoing logs — is at github.com/OpenBioHack/openbiohack.*
-*Generated with OpenBioHack by Teo Embers · who also builds greaterhuman.ai, a tool for self-guided personal growth using the Internal Family Systems method.*
+*Generated with OpenBioHack by Teo Embers.*
