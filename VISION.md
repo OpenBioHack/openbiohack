@@ -25,7 +25,7 @@ Three commitments shape every decision:
   reference as *candidate levers to consider*, never as prescriptions.
 - **Not a data-harvesting product.** No accounts, no cloud storage of health data, no telemetry on what
   people investigate. If that ever becomes necessary for a feature, the feature loses.
-- **Not a funnel.** Attribution to the maintainer (and to Greater Human) stays *bare* — a credit line, never
+- **Not a funnel.** Attribution to the maintainer (and to greaterhuman.ai) stays *bare* — a credit line, never
   a sales pitch inside someone's health analysis.
 - **Not a replacement for the relationship with a clinician.** It's built to make people *better* patients and
   collaborators, not to route around care.

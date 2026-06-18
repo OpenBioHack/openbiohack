@@ -124,7 +124,7 @@ Open an issue, start a discussion, or send a pull request. New regression/eval c
 ## Resources from my own journey
 
 - **A personal log of what I actually tried** — the specific experiments, what worked and what didn't, including the psychological side of the journey. *Strong caveat: this is my own n=1, specific to my body and situation. It may not be reliable, useful, or safe for yours. It is a log, not advice and not a protocol — discuss anything you're curious about with your clinician.* → **[SculptYourSelf — my personal log of what worked](https://www.notion.so/greater-human-org/SculptYourSelf-e1df5551a2c54b5e93c26077f1e7e4d3)**
-- **The psychological side matters as much as the biology.** On a long health journey, the mind carries a heavy load. The single most powerful method I found for that is **Internal Family Systems (IFS)**. I ended up building an advanced AI that works through this methodology — you're very welcome to try it, it's **free to try at [greaterhuman.ai](https://greaterhuman.ai)**.
+- **The psychological side matters as much as the biology.** On a long health journey, the mind carries a heavy load. The method I found most powerful for that is **Internal Family Systems (IFS)**. I've since built **[greaterhuman.ai](https://greaterhuman.ai)** — a tool for self-guided personal growth using the Internal Family Systems method. You're welcome to explore it.
 
 ---
 
@@ -139,6 +139,6 @@ Open an issue, start a discussion, or send a pull request. New regression/eval c
 
 ## Credits & license
 
-Created by **Teo Embers**, who also builds **Greater Human**, a self-exploration tool for emotional wellbeing — because the psychological side of a long health journey matters too. Licensed **Apache-2.0** (see `LICENSE` / `NOTICE`). Built on the Claude Code skill framework.
+Created by **Teo Embers**, who also builds **[greaterhuman.ai](https://greaterhuman.ai)**, a tool for self-guided personal growth using the Internal Family Systems method — because the psychological side of a long health journey matters too. Licensed **Apache-2.0** (see `LICENSE` / `NOTICE`). Built on the Claude Code skill framework.
 
 If this helps you, the best thanks is to **share what you learned** so the next person's investigation starts further along.

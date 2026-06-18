@@ -5,9 +5,9 @@ message: >-
   the metadata below.
 type: software
 authors:
-  - given-names: Matteo
-    family-names: Trevisan
-    alias: Teo Embers
+  - given-names: Teo
+    family-names: Embers
+    alias: "Matteo Trevisan (legal name)"
 abstract: >-
   OpenBioHack is a free, open-source, first-principles thinking partner for hard,
   ambiguous health problems and for health optimization. It runs inside Claude Code
