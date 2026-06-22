@@ -122,6 +122,21 @@ the shape that fits. The principles above are what's enforced, not a schema.
 The job of Phase A is to get each source's data out accurately, with every item
 traceable to a verbatim quote. It runs per source, and within a source, per chunk.
 
+### Phase A.0 — completeness pre-flight (expected-vs-present)
+
+Before extracting, and again after, build a **record-level completeness map** — distinct from
+`index.md`'s page-level "every page accounted for" report. The question here is not "did we read
+every page of what we were handed" but "**were we handed everything a competent investigator would
+expect for this presentation?**" List the records such an investigator would expect to see — for
+example: the full treatment regimen with durations and co-administered agents; the **onset
+timeline** (what changed when, what pre-dated the first symptom); every intervention trialed and
+its result; the panels/imaging a clinician would have ordered for this complaint. Check each
+expected record against what was actually provided. **An expected-but-absent record is a hole —
+name it explicitly in the completeness map, never silently skip it.** Write the expected-vs-present
+map and the flagged holes to `extracted/data-completeness.md`. (When dispatched by
+`/investigate-health` Step 0, this is the artifact that step's onboarding reads; run directly, it
+is still produced so the operator sees the gaps.)
+
 ### Chunking
 
 Models lose accuracy on long inputs. Extracting across a long document in one pass
@@ -244,6 +259,25 @@ specifically to catch them.
 
 If verification catches any of these mid-loop, halt the chunk and re-run its extraction
 loop after the fix.
+
+### Phase A.final — client verification (open the docs)
+
+Phase A produces the faithful extracts, but the *person* is the only authority on whether they are
+complete and correct. After Phase A finishes for every source, before compiling Phase B:
+
+- **Hand the extracts to the person and strongly suggest they read them** — name the extract files
+  and give a sensible **reading order** (e.g. the timeline / event-log first, then the per-source
+  extracts). Verifying their own raw facts is essential and keeps them the owner of their picture.
+- **Open the documents for them** if they grant permission (outside the sandbox if needed) — don't
+  leave reading them as an abstract suggestion.
+- **Ask them to confirm completeness and correctness — the timeline especially** — and to surface
+  anything missing: a document they never provided, a source the extraction missed, a record they
+  forgot. Fold any correction back into Phase A (re-extract the affected source) and any newly named
+  missing record into `extracted/data-completeness.md` before Phase B runs.
+
+This is fact-checking the inputs, not interpreting them — no hypotheses are formed here. (When
+dispatched by `/investigate-health`, this is the engine-side onboarding Step 0.3 calls into; run
+directly, it is still the right close to Phase A.)
 
 ## Phase B — cross-source compilation
 

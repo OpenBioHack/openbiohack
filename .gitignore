@@ -9,6 +9,11 @@ research/
 extracted/
 *.local.md
 
+# ...but the `research` SKILL is shipped product surface, not a run-output dir —
+# the `research/` pattern above would otherwise hide it. Ship it explicitly:
+!skills/research/
+!skills/research/**
+
 # OS / editor junk
 .DS_Store
 *~

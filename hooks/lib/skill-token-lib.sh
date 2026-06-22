@@ -12,6 +12,34 @@ SKILL_TOKEN_DIR="${SKILL_TOKEN_DIR:-/tmp/claude/.skill-tokens}"
 SKILL_TOKEN_TTL_SECONDS="${SKILL_TOKEN_TTL_SECONDS:-600}"
 SKILL_TOKEN_FUTURE_TOLERANCE="${SKILL_TOKEN_FUTURE_TOLERANCE:-10}"
 
+# ensure_secret SECRET_FILE
+# Guarantees a non-empty 256-bit secret exists at SECRET_FILE, generating one on
+# first use if absent. The secret is a LOCAL self-test HMAC key -- issuer and
+# verifier are both local hook scripts that only need to share the same value, so
+# auto-generating a random key is safe and makes the skill zero-setup ("easy for
+# anyone to use"). Backward-compatible: if the file already exists and is
+# non-empty, it is left untouched. Returns 0 if a usable secret is present.
+ensure_secret() {
+    local secret_file="$1"
+    if [ -s "$secret_file" ]; then
+        return 0
+    fi
+    local dir
+    dir="$(dirname -- "$secret_file")"
+    mkdir -p "$dir" 2>/dev/null || return 1
+    chmod 700 "$dir" 2>/dev/null || true
+    if command -v openssl >/dev/null 2>&1; then
+        ( umask 077; openssl rand -hex 32 >"$secret_file" ) 2>/dev/null || return 1
+    elif [ -r /dev/urandom ] && command -v od >/dev/null 2>&1; then
+        ( umask 077; od -An -tx1 -N32 /dev/urandom | tr -d ' \n' >"$secret_file" ) 2>/dev/null || return 1
+    else
+        return 1
+    fi
+    chmod 600 "$secret_file" 2>/dev/null || true
+    [ -s "$secret_file" ]
+}
+
+
 # issue_token SKILL_NAME [OVERRIDE_TS]
 # Emits the token string on stdout. Returns 0 on success, non-zero on error.
 # OVERRIDE_TS is for tests only.
@@ -19,7 +47,7 @@ issue_token() {
     local skill="$1"
     local override_ts="${2:-}"
     local secret_file="$SKILL_TOKEN_SECRET_FILE"
-    if [ ! -f "$secret_file" ]; then
+    if ! ensure_secret "$secret_file"; then
         return 10
     fi
     python3 - "$skill" "$secret_file" "$override_ts" <<'PYEOF'
@@ -59,7 +87,7 @@ verify_token() {
     local token="$1"
     local expected_skill="$2"
     local secret_file="$SKILL_TOKEN_SECRET_FILE"
-    if [ ! -f "$secret_file" ]; then
+    if ! ensure_secret "$secret_file"; then
         return 10
     fi
     python3 - "$token" "$expected_skill" "$secret_file" "$SKILL_TOKEN_TTL_SECONDS" "$SKILL_TOKEN_FUTURE_TOLERANCE" <<'PYEOF'

@@ -33,6 +33,14 @@ the dispatcher. You verify against the primary sources and the ledger, never aga
    re-raise justified by **newly logged, higher-authority evidence** (cited in the ledger's `## Parked`
    re-raise cell)? A parked hypothesis re-floated on priors, drift, or conversation-steering is a FAIL. Also:
    does any confidence-band *increase* carry the new evidence that justified it? An un-justified increase is a FAIL.
+6. **(e) No history-suppression — dropping a documented response or established prior without an explanation
+   is a FAIL.** The authority order (register 0.4) makes the person's documented treatment responses and any
+   established prior conclusion top-tier evidence that may be *reframed* but never *silently dropped*. Scan the
+   artifact against the treatment-response history and the ledger's `## Established` entries: is there a
+   documented response (worked / neutral / worsened / failed) or an established prior that the artifact simply
+   omits — neither carried forward nor explicitly demoted with cited reasoning? **A silent omission is a FAIL.**
+   This auditor no longer rewards a tidy narrative bought by suppressing inconvenient history; an honest
+   account either explains the documented item (B7 reverse-engineering) or explicitly demotes it with evidence.
 
 ## Register
 
@@ -45,7 +53,7 @@ words; name processes, not labels; reporting a recorded diagnosis is fine).
 auditor: reconcile
 findings:
   - claim: <verbatim load-bearing claim>
-    check-failed: <a-reconcile | b-no-override | c-disconfirmer | d-voi-or-already-tried | d2-re-raise | none>
+    check-failed: <a-reconcile | b-no-override | c-disconfirmer | d-voi-or-already-tried | d2-re-raise | e-history-suppression | none>
     rationale: <one paragraph citing the ledger entry or primary-source quote that grounds the verdict>
     severity: <blocking | flag>
 overall: <PASS | FAIL>

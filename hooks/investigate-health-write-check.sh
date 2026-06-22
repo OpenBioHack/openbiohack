@@ -18,7 +18,6 @@ set -eu
 
 INPUT=$(cat)
 
-
 HOOK_DIR="$(cd -- "$(dirname -- "$0")" && pwd)"
 . "$HOOK_DIR/lib/investigate-state.sh"
 LOGGER="$HOOK_DIR/lib/log-hook-fire.sh"
@@ -27,6 +26,7 @@ PARSED=$(printf '%s' "$INPUT" | python3 -c "
 import sys, json
 d = json.load(sys.stdin)
 ti = d.get('tool_input', {}) or {}
+print(d.get('cwd', ''))
 print(d.get('session_id', ''))
 print(ti.get('file_path', ''))
 print('---CONTENT---')
@@ -34,15 +34,23 @@ c = ti.get('content', '') or ti.get('new_string', '')
 print(c)
 " 2>/dev/null) || exit 0
 
-SESSION=$(printf '%s' "$PARSED" | sed -n '1p')
-FILE_PATH=$(printf '%s' "$PARSED" | sed -n '2p')
+CWD=$(printf '%s' "$PARSED" | sed -n '1p')
+SESSION=$(printf '%s' "$PARSED" | sed -n '2p')
+FILE_PATH=$(printf '%s' "$PARSED" | sed -n '3p')
 CONTENT=$(printf '%s' "$PARSED" | sed -n '/^---CONTENT---$/,$p' | tail -n +2)
 
 BASENAME=$(basename "$FILE_PATH" 2>/dev/null || echo "")
 case "$BASENAME" in
     working-hypothesis.md|step5-cross-check.md|hypothesis-set.md|step6-prioritize.md|offering.md) ;;
+    constraints-*.md|shape-profile-*.md|mechanism-map-*.md|convergence-*.md) ;;
     *) exit 0 ;;
 esac
+
+# --- root-anchored scope guard (compaction-proof + portable; replaces hardcoded path) ---
+# Active iff the cwd OR the file being written lives at/under a run root that carries the
+# bootstrap's .investigate-active marker. No hardcoded project path.
+investigate_is_active "$CWD" "$FILE_PATH" || exit 0
+# --- end scope guard ---
 
 INVESTIGATE_STATE_DIR="$(investigate_state_dir "$SESSION")"
 export INVESTIGATE_STATE_DIR
@@ -158,6 +166,95 @@ if [ "$BASENAME" = "offering.md" ]; then
         deny "Step-7 gate: offering.md blocked until extracted/spot-check.md exists (the independent extraction spot-check). Dispatch the spot-check agent first, then retry."
     fi
 fi
+
+# ============================================================================
+# Phase-B deepening-loop gates (Steps 5.8-5.13). Each B-chain Write is blocked
+# until its upstream artifact is well-formed. Plus the lexical GRAIN pre-check on
+# shape-profile / convergence (flags aggregate-as-actor for the decomposition auditor).
+# ============================================================================
+
+# --- lexical grain pre-check (used by B2 + B5 below) ---
+# Denies a line that uses an AGGREGATE as a single ACTOR ("the drug family confers
+# resistance", "the consortium survives") or an UNSPECIFIED relation ("confers resistance"
+# with no named target) UNLESS the same line carries a decomposition acknowledgement
+# (an explicit member/species breakdown, an arrow, 'namely/specifically', or a [grain:] tag).
+# This is a pre-check, not the final word — the decomposition auditor confirms semantically.
+grain_check() {
+    local content="$1" where="$2"
+    local hit
+    hit=$(printf '%s' "$content" | python3 -c '
+import sys, re
+text = sys.stdin.read()
+# strip fenced + inline code
+text = re.sub(r"\x60\x60\x60.*?\x60\x60\x60", "", text, flags=re.DOTALL)
+text = re.sub(r"\x60[^\x60]*\x60", "", text)
+AGG = r"\bthe\s+(?:drug|antibiotic|antimicrobial|treatment|kill|supplement)[- ]?(?:set|family|class|group|regimen|protocol|stack)\b|\bthe\s+(?:consortium|community|biofilm community)\b"
+ACTION = r"\b(survives?|resists?|confers?|feeds?|shelters?|protects?|persists?|rebounds?|clears?|outcompetes?)\b"
+UNSPEC = r"\bconfers\s+resistance\b(?!\s+(?:to|against)\b)|\bis\s+resistant\b(?!\s+(?:to|against)\b)|\bfeeds\s+it\b|\bshelters\s+it\b"
+DECOMP = r"→|->|\bnamely\b|\bspecifically\b|\[grain:|\bmember\b|\bspecies\b|\beach\s+(?:of|member)\b"
+bad = []
+for raw in text.split("\n"):
+    line = raw.strip()
+    if not line or line.startswith("|") or line.startswith("#"):
+        continue
+    agg_actor = re.search(AGG, line, re.I) and re.search(ACTION, line, re.I)
+    unspec = re.search(UNSPEC, line, re.I)
+    if (agg_actor or unspec) and not re.search(DECOMP, line, re.I):
+        bad.append(line[:160])
+print("\n".join(bad[:3]))
+' 2>/dev/null)
+    if [ -n "$hit" ]; then
+        deny "Grain check ($where): a load-bearing line treats an AGGREGATE as a single actor, or asserts an UNSPECIFIED relation, without decomposing it to checkable members. Per SKILL.md B2 (Shape Deduction) the decomposition is part of shape-finding: explode 'the drug family / the consortium' to its members (family -> species, NOT to atoms) and specify every relation's end + mechanism ('confers resistance TO whom, BY what') before it bears weight. Add the member-level breakdown on the line (or tag it [grain: decomposed] once the members are spelled out elsewhere). Offending: $hit"
+    fi
+}
+
+# --- B1 (5.8): constraints-<Hn>.md ---
+case "$BASENAME" in
+  constraints-*.md)
+    MISS=""
+    printf '%s' "$CONTENT" | grep -qiE '^##[[:space:]]+Must-fit constraints' || MISS="$MISS ##-Must-fit-constraints-section"
+    printf '%s' "$CONTENT" | grep -qiE '^##[[:space:]]+Blind-spot constraints' || MISS="$MISS ##-Blind-spot-constraints-section"
+    printf '%s' "$CONTENT" | grep -qiE '\bonset\b|\bperturb' || MISS="$MISS onset/perturbation-constraint(or 'not applicable - reason')"
+    printf '%s' "$CONTENT" | grep -qiE 'surviv|reservoir' || MISS="$MISS survival-explanation-constraint(or 'not applicable - reason')"
+    if [ -n "$MISS" ]; then
+        deny "B1 gate (Step 5.8): constraints-$BASENAME blocked until it is well-formed. MISSING:$MISS . Per SKILL.md B1, a constraints file needs a '## Must-fit constraints' section (each line 'the cause must / cannot ...', source-traced) INCLUDING an onset/perturbation constraint and a survival-explanation constraint (or an explicit 'not applicable - <reason>' for either), plus a non-empty '## Blind-spot constraints' section (what each result, positive AND negative, cannot see)."
+    fi
+    ;;
+  shape-profile-*.md)
+    # B2: requires the matching constraints file to exist first.
+    HN=$(printf '%s' "$BASENAME" | sed -E 's/^shape-profile-(.*)\.md$/\1/')
+    [ -s "$ROOT/constraints-$HN.md" ] || deny "B2 gate (Step 5.9): shape-profile-$HN.md blocked until constraints-$HN.md exists (B1 must precede B2 — the shape is deduced FROM the constraints). Write constraints-$HN.md first."
+    grain_check "$CONTENT" "B2 shape-profile"
+    ;;
+  mechanism-map-*.md)
+    # B3: requires at least one shape-profile in the root; schema + exclusion-discipline + discriminator.
+    ls "$ROOT/shape-profile-"*.md >/dev/null 2>&1 || deny "B3 gate (Step 5.10): mechanism-map blocked until a shape-profile-<Hn>.md exists in the run root (B2 must precede B3 — candidates are matched against the deduced shape). Write the shape profile first."
+    MISS=""
+    printf '%s' "$CONTENT" | grep -qiE 'vulnerab' || MISS="$MISS vulnerabilities-node(what-disrupts-each-node)"
+    printf '%s' "$CONTENT" | grep -qiE 'persistence[- ]structure|persistence structure' || MISS="$MISS persistence-structure(+disruptors)"
+    printf '%s' "$CONTENT" | grep -qiE 'askable-now|in-records|needs-test' || MISS="$MISS cheapest-discriminator-tag(askable-now/in-records/needs-test)"
+    # exclusion discipline: any exclusion must be (a)-strength; a (b)/(c) tag used to EXCLUDE is denied.
+    BADEXCL=$(printf '%s' "$CONTENT" | grep -niE '\((b|c)\)' 2>/dev/null | grep -iE 'exclud|ruled out|removed|eliminat' || true)
+    [ -z "$BADEXCL" ] || MISS="$MISS (b)/(c)-strength-used-to-exclude[$(printf '%s' "$BADEXCL" | head -1 | cut -c1-80)]"
+    if [ -n "$MISS" ]; then
+        deny "B3 gate (Step 5.10): mechanism-map $BASENAME blocked until the domain-neutral schema and exclusion discipline are complete. MISSING:$MISS . Per SKILL.md B3: every node needs a 'vulnerabilities' entry and a 'persistence-structure' (+ disruptors); every candidate/load-bearing property carries a cheapest-discriminator tag (askable-now / in-records / needs-test); and ONLY an (a) examined-and-excluded-with-mechanism finding (citing a primary-source sentence) may EXCLUDE a candidate — a (b) primarily/mostly or (c) never-examined tag may lower but must NOT exclude."
+    fi
+    ;;
+  convergence-*.md)
+    # B5: requires a mechanism-map present; ruled-out ledger; no unresolved cheap discriminator; grain.
+    HN=$(printf '%s' "$BASENAME" | sed -E 's/^convergence-(.*)\.md$/\1/')
+    MISS=""
+    ls "$ROOT/mechanism-map-"*.md >/dev/null 2>&1 || MISS="$MISS mechanism-map-<candidate>.md(B3-must-precede-B5)"
+    printf '%s' "$CONTENT" | grep -qiE '^##[[:space:]]+Ruled-out ledger|ruled-out ledger' || MISS="$MISS ##-Ruled-out-ledger(every-demotion-cites-evidence)"
+    # B4: no weight assigned while an askable-now / in-records discriminator is still unresolved.
+    UNRES=$(printf '%s' "$CONTENT" | grep -niE '(askable-now|in-records)' 2>/dev/null | grep -iE 'unresolved|pending|TODO|not yet (asked|read)' || true)
+    [ -z "$UNRES" ] || MISS="$MISS unresolved-askable/in-records-discriminator(B4-resolve-before-weighting)[$(printf '%s' "$UNRES" | head -1 | cut -c1-60)]"
+    if [ -n "$MISS" ]; then
+        deny "B5 gate (Step 5.12): convergence-$HN.md blocked until the simulation/convergence artifact is well-formed. MISSING:$MISS . Per SKILL.md B5: a per-candidate mechanism-map must exist; a '## Ruled-out ledger' must list every demoted candidate WITH the specific evidence that demoted it (every rank-change cites a constraint/observation); and per B4 no candidate may carry an unresolved 'askable-now' or 'in-records' discriminator (resolve those by asking the person or reading the record BEFORE weighting, never by scheduling a test)."
+    fi
+    grain_check "$CONTENT" "B5 convergence"
+    ;;
+esac
 
 # Check 1 — tier marker without [src:] / [ledger:] in same sentence.
 # Exemptions:
@@ -321,6 +418,14 @@ case "$BASENAME" in
     offering.md)
         if ! investigate_has_audit_token "$SESSION" "offering"; then
             deny "Write to offering.md requires an audit-council token. The finish-line audit-council must pass before the person-facing offering is written. Run audit-council-completion.sh <session> offering <claim-id> AND audit-council-completion.sh <session> finish-line <claim-id> after audit dispatch."
+        fi
+        # New B8 council auditors — each must pass and issue its token before the offer ships.
+        AUDIT_MISSING=""
+        for g in decomposition structure register substance; do
+            investigate_has_audit_token "$SESSION" "$g" || AUDIT_MISSING="$AUDIT_MISSING $g"
+        done
+        if [ -n "$AUDIT_MISSING" ]; then
+            deny "Write to offering.md requires the four B8 council auditors to PASS first. MISSING tokens:$AUDIT_MISSING . Dispatch each auditor (INVESTIGATE-ROLE: investigate-audit-<role>, templates in references/council/), aggregate per references/council/aggregation-rule.md, and on a confident PASS run: audit-council-completion.sh <session> <role> <claim-id> for each of decomposition (grain), structure (7-section completeness), register (non-diagnosis), substance (every actionable item carries the full B6 record). A FAIL bounces the artifact to the owning step before the offer is written."
         fi
         ;;
 esac
