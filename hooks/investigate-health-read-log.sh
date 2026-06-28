@@ -22,7 +22,7 @@ SESSION=$(printf '%s' "$PARSED" | sed -n '1p')
 FILE_PATH=$(printf '%s' "$PARSED" | sed -n '2p')
 
 if [ -n "$FILE_PATH" ] && [ -n "$SESSION" ]; then
-    investigate_record_read "$SESSION" "$FILE_PATH"
+    investigate_record_read_anchored "$SESSION" "$FILE_PATH" "$FILE_PATH"
 fi
 
 exit 0

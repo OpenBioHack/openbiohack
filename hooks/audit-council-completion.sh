@@ -52,5 +52,16 @@ if [ "$GATE" = "finish-line" ]; then
     touch "$STATE_DIR/finish-line.token"
 fi
 
+# Run-root-anchored copy (compaction-proof): if a run-root is supplied (4th arg or $INVESTIGATE_RUN_ROOT),
+# also write the token next to .investigate-active so it survives a session-id roll.
+RUN_ROOT="${4:-${INVESTIGATE_RUN_ROOT:-}}"
+if [ -n "$RUN_ROOT" ] && [ -d "$RUN_ROOT" ]; then
+    RT_DIR="$RUN_ROOT/.investigate-tokens"
+    mkdir -p "$RT_DIR" 2>/dev/null || true
+    ( umask 077; printf '%s\n' "$TOKEN" > "$RT_DIR/$GATE.token" ) 2>/dev/null || true
+    chmod 600 "$RT_DIR/$GATE.token" 2>/dev/null || true
+    [ "$GATE" = "finish-line" ] && touch "$RT_DIR/finish-line.token" 2>/dev/null || true
+fi
+
 bash "$LOGGER" "audit-council-completion" "$GATE" "session=$SESSION claim=$CLAIM_ID" "issued" 2>/dev/null || true
 exit 0

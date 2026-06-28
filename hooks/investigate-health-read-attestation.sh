@@ -41,7 +41,7 @@ for d in "$ROOT/research" "$ROOT/graphs"; do
     [ -e "$f" ] || continue
     case "$f" in *.bak*|*"/_"*) continue ;; esac
     COUNT=$((COUNT+1))
-    if investigate_was_read "$SESSION" "$f"; then
+    if investigate_was_read_anchored "$SESSION" "$f" "$FILE_PATH"; then
       READN=$((READN+1))
     else
       UNREAD="$UNREAD

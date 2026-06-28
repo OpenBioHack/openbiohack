@@ -43,7 +43,10 @@ diversity, and the blind test confirmed it does.)*
 **3. Per-hypothesis bar.** Each hypothesis must:
 - account for the **load-bearing** findings, and **explicitly name which findings it does not
   explain and why** (incidental? noise?) — "explains everything" is overfitting, not a virtue;
-- rest on a believable step-by-step mechanism (each link real — check against the graphs);
+- rest on a believable step-by-step mechanism — and, for each leading hypothesis, **a narrated end-to-end
+  chain** to the felt symptom at the mechanism-depth-interrogation standard (entity granularity / verb-chain /
+  anatomical location / measurement-edge on quantitative links), every probe closed or its residual flagged
+  (each link real — check against the graphs);
 - be as simple as it can be **but no simpler** — do not collapse genuinely separate things to
   force tidiness;
 - note whether it's something one could act on;

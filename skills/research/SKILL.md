@@ -128,6 +128,8 @@ For each lens, generate 2-3 specific sub-questions that this discipline would as
 
 **When subagents are available**: Spawn one agent per lens for parallel investigation. Each agent researches its assigned questions, presents findings with citations, flags uncertainties, and notes contradictions with other lenses. The contradictions are where the most important insights live.
 
+**File discipline (applies to every research agent, including the orchestrator).** Default to writing *nothing but the final deliverable*. Fetch, synthesize, and write the one output file the task asked for — do not stage intermediate "cluster" or "raw-fetch" working files unless you genuinely need to park large data mid-flight before condensing it. When a temporary file is actually warranted, it goes in the session's system temp/scratchpad directory (the absolute scratchpad path provided in the environment), NEVER inside the user's project directory. Only the final deliverable lands in the project. When delegating to a sub-agent, paste this rule into its prompt — it does not inherit this skill, and the project directory is not a scratch space.
+
 ### Step 8 — Mandatory Counter-Evidence Search
 
 *This step is non-negotiable. It is the single highest-leverage intervention against confirmation bias.*

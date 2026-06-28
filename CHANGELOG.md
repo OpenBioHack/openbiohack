@@ -3,6 +3,48 @@
 All notable changes to OpenBioHack are recorded here. The bundle is generated from the canonical
 engine by `build/build-bundle.sh`; entries describe the engine behaviour the public bundle ships.
 
+## 0.3.0
+
+The engine now produces its mechanistic depth itself — and checks its own work for shallowness — so the
+person-facing offer is genuinely educational without a human having to drag it deeper. This release adds a
+self-interrogation depth loop, a measurement-edge / dose-reachability check, an anatomical-location
+requirement, a re-shaped offer, section-by-section offer writing against a worked-example library, and
+tightened council auditors. (It is the outcome of a second post-mortem: a run that produced the right
+structure but still explained mechanisms too shallowly to teach from.)
+
+### Added
+- **Mechanism-depth interrogation.** Every load-bearing mechanism must pass a self-check — WHAT (specific
+  actor: molecule / enzyme / gene / cell / microbial family), BY-WHAT (a verb-chain, not a bare outcome),
+  WHERE (anatomical location), HOW-MUCH (the measurement-edge below), MEASURED-OR-EXTRAPOLATED, and RESIDUAL.
+  An unclosed probe triggers targeted research until it closes or is honestly flagged as an evidence-edge.
+  This automates the "go deeper" pushback that previously needed a human.
+- **Measurement-edge / dose-reachability check** (deep mechanism map + intervention mapping). For any claim
+  whose weight depends on an amount, or is imported from another context (other species, in-vitro, a
+  different compartment or dose): an evidence-edge map; a commensurability guard that refuses
+  apples-to-oranges comparisons (e.g. a blood concentration used to infer a gut-lumen concentration); and —
+  only where the quantity was never actually measured — a transparent first-principles estimate with its
+  assumptions, a range, and an order-of-magnitude plausibility verdict. Surfaced honestly, never as measured.
+- **Narrated end-to-end chains + anatomical location** required at the producers (hypothesis step, deepen /
+  coherence, deep mechanism map): each leading hypothesis carries a chain from root → each step → the felt
+  symptom, naming the segment / cell where each step happens (and produced-vs-acts for a factor) — so the
+  offer integrates depth instead of inventing it.
+- **Per-section offer-example library** (`references/offer-examples/s1–s7.md`): worked, multi-domain teaching
+  exemplars that set the depth and register bar for each section of the offer.
+- **Unstudied-gap invitation.** The closing offer surfaces the questions no existing study can settle and
+  offers a transparent first-principles estimate, with every assumption shown for the person to challenge.
+
+### Changed
+- **Offer sections 5 and 6 re-shaped.** §5 = low-risk things to try (Category 1 to ease symptoms / Category 2
+  also possibly acting on a root cause); §6 = higher-risk, mostly-root-cause options that warrant a test
+  *before* trying, each paired with the test that should precede it (cheap-at-home vs more-expensive, each
+  naming the decision its result would change).
+- **The offer is written section by section.** Each section is produced by a dedicated pass that loads only
+  that section's worked examples plus the upstream artifacts it integrates — so the depth-and-register bar is
+  met per section rather than diluted across one long pass.
+- **Council auditors tightened.** The structure auditor checks the new §5/§6 shape; the substance auditor now
+  fails any load-bearing mechanism with an unclosed depth probe and requires the measurement-edge verdict on
+  any dose-reachability claim.
+
 ## 0.2.0
 
 The investigation engine now performs the deep reasoning itself instead of needing a human to drag

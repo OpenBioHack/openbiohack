@@ -488,6 +488,45 @@ met, the second when the instrument simply could not see the process.
 
 ---
 
+## Mechanism-depth interrogation (close shallow holes before a human has to)
+
+Every load-bearing mechanistic explanation this procedure produces — a hypothesis's causal chain (drafted
+as a skeleton at Step 4.5, fully interrogated when the hypothesis is deepened at Step 5.7 / B3), a node in a
+mechanism map (B3), or how a proposed intervention acts on a node (Step 6) — must pass this interrogation
+**before that explanation is relied on** (before a deepened hypothesis, a mechanism map, or a proposed item
+is accepted). Ask each probe **of your own draft**. A probe is **closed** only when
+it is either (i) answered from cited evidence, or (ii) explicitly marked as an *evidence-edge* with a
+measurement-edge estimate (see the measurement-edge check in B3). An unclosed probe is **not a finished
+explanation**: it triggers a targeted `/research` + `/research-practitioner` dispatch on *exactly that hole*,
+after which the probe is re-asked. **Loop until every probe is closed. Terminate on closure — never because
+the prose "reads well" or you judge it good enough.** The purpose is to make the procedure catch its own
+shallowness the way a rigorous reader would, instead of a person having to push back round after round.
+
+The probes:
+- **WHAT** — is every actor named at the specific level (the exact molecule, enzyme, gene, cell type,
+  microbial family/species)? A vague noun standing in for a mechanism — *"certain bacteria," "the barrier,"
+  "inflammation," "supports gut health"* — is an **unclosed** probe.
+- **BY-WHAT** — is each step a *verb-chain* (X does this to Y, which causes Z), or a *noun-claim* asserting an
+  outcome with no mechanism behind it (*"improves the barrier," "calms inflammation"*)? An outcome with no
+  chemistry is **unclosed**: name what binds / cleaves / activates / blocks / fuels what.
+- **WHERE** — is the anatomical location of each step given (which compartment or segment, which cell type;
+  for a secreted or active factor, where it is produced vs where it acts)? Absent location is **unclosed**.
+- **HOW-MUCH** — for any step whose strength depends on an amount, has the measurement-edge check run
+  (concentration needed vs reachable, commensurable comparison, measured-or-estimated)? An amount-dependent
+  step with no measurement-edge verdict is **unclosed**.
+- **MEASURED-OR-EXTRAPOLATED** — is it stated whether this was actually measured in *this* subject / *this*
+  context, or carried over from another species, an in-vitro system, a different compartment, or a different
+  dose? Silence is **unclosed**.
+- **RESIDUAL** — after the research, what about this mechanism is *still* not known or not explained? Name it.
+  "Nothing unexplained" is acceptable only if every probe above closed with evidence; otherwise the residual
+  **is** the honest hole — flag it (and it feeds the B9 back-of-envelope invitation).
+
+If a probe cannot be closed even after targeted research, it is an **evidence-edge**: record the
+measurement-edge estimate and the explicit "this has not been measured/studied" flag, and stop — that is
+closure by honest limit, not by giving up.
+
+---
+
 ## The procedure
 
 The procedure is **not linear.** Steps 5 and 5.5 cycle internally — each interview answer can send the relevant piece back to cross-check, or up to step 3 for more routes if a new candidate appears. Different candidates exit the inner loop at different times. Step 8 lets new evidence re-enter the procedure at any earlier step.
@@ -683,7 +722,7 @@ the person's *actual measured anomalies*. So **also** build, at this same stage:
   contract). Each asks *what this thing actually is and does*: what it consumes and produces (gases,
   metabolites, proteases, mediators), what is **upstream** (what could drive this value out of range) and
   **downstream** (what this value in turn affects / drives), and the conditions under which it shifts from
-  benign to meaningful. This **generalises** the standout/extreme-finding → mechanism-map rule (see "How the
+  benign to meaningful — and the anatomical location of each step (which segment and cell type; for a secreted or active factor, where it is produced vs where it acts). This **generalises** the standout/extreme-finding → mechanism-map rule (see "How the
   loop is actually run") from *the largest-magnitude* outlier to **every** anomaly — scaled by degree-out-of-
   range so it stays tractable, but comprehensive in principle. Build it **early, not in loop-back:** doing the
   deep per-anomaly biology now makes the Step-4.5 hypotheses mechanism-grounded in the person's actual data
@@ -1014,7 +1053,7 @@ The mechanic:
 
 3. **Per-hypothesis bar.** Each must account for the **load-bearing** findings and *name
    which it does not explain and why* ("explains everything" is overfitting); rest on a
-   coherent step-by-step mechanism (each link real — check against the graphs); be as simple
+   coherent step-by-step mechanism — **written as an end-to-end chain** naming each link (what acts on what, in which direction) from the root/driver through to the **specific felt symptom it would produce** — skeletally complete to the symptom (not a node-drop) and checkable against the graphs. The **full mechanism-depth interrogation** (front matter — closing every WHAT / BY-WHAT / WHERE / HOW-MUCH probe with targeted research, kept scientifically precise and not yet client-plain) runs when the hypothesis is **deepened (Step 5.7 / B3)**, so the depth is produced for the leaders the offer integrates — not invented later, and not spent here on hypotheses the cross-check may kill; be as simple
    as it can be **but no simpler** (don't collapse genuinely separate things to force
    tidiness); note its actionability; and carry an **over-fit flag** if a single mechanism
    is stretched to resolve every tension at once (explains everything → predicts nothing).
@@ -1600,7 +1639,7 @@ judgment is biased toward whatever you already lean to. The subject's own data i
    tests**, the treatments and their dates, and work out what each piece would *mean* under the hypothesis —
    some data is silent, some speaks. This reuses the test-result-anchored mechanism maps already built early
    (Dm, Step 2); where a mechanism is still shallow, dispatch a paired `/research` + `/research-practitioner`
-   to deepen it. Record per-hypothesis notes under `## Deepening — <Hn>`.
+   to deepen it. Record per-hypothesis notes under `## Deepening — <Hn>`. The deepening notes must **build or extend the hypothesis's narrated end-to-end chain to the felt symptom** (not only what each piece would mean), running the **mechanism-depth interrogation** (front matter); any probe research cannot close is logged as an `OPEN-GAP` with its measurement-edge estimate.
 2. **COHERENCE / DISCREPANCY hunt** across symptoms × tests × timeline × treatments — surface **every**
    discrepancy that demands an explanation, and record each under `## Discrepancies` either with a mechanism
    explanation **or** tagged `OPEN-GAP` (the cheapest move to close it). Never silently drop a discrepancy to
@@ -1624,7 +1663,7 @@ same loop runs against the person's measured baselines and response data.
 
 ---
 
-## The Phase-B deepening loop (Steps 5.8–5.13) — convergence through documented elimination
+## The Phase-B deepening loop (Steps 5.8–5.14) — convergence through documented elimination
 
 Step 5.7 deepened each hypothesis against the subject's own data and judged it strengthen/weaken/neutral.
 The deepening loop now does the harder work that the live-run post-mortem showed the engine will **not**
@@ -1719,7 +1758,7 @@ system* and to *locate intervention points* — not a label, a working model.
 
 **Operationalisation.**
 - **Schema (domain-neutral — register 0.2):** `inputs / outputs / persistence / interactions /
-  environment-modulation` — **plus**, for each node, a **`vulnerabilities`** entry (what disrupts this node)
+  environment-modulation / location (the compartment/segment and cell type where this node operates; for a secreted or active factor, production-site vs action-site)` — **plus**, for each node, a **`vulnerabilities`** entry (what disrupts this node)
   and an explicit **`persistence-structure` + its disruptors** (what holds the process in place and what
   would dislodge it). Every node is a **resolved entity** (no aggregate-as-actor — grain rule); every edge
   is **tiered**, with a **falsifier** named on the speculative (T3+) ones. (NOT "eats / expels" — that
@@ -1747,6 +1786,37 @@ system* and to *locate intervention points* — not a label, a working model.
   explanation/sources for an auditor to verify independently — never a self-assigned label. **(b) and (c)
   are carried** with their strength and an **"elsewhere not examined" flag**; they may lower a candidate but
   must not silently delete it.
+- **Measurement-edge & dose-reachability check (per load-bearing edge that is quantitative OR imported
+  from another context — another species, in-vitro/ex-vivo, a different tissue/compartment, a different
+  dose, acute-vs-chronic, healthy-vs-diseased).** Run before the edge may bear weight:
+  1. **Evidence-edge map** — write, side by side, what the cited evidence ACTUALLY measured (system /
+     compartment / dose-or-concentration / endpoint / population) vs what is being CLAIMED for this
+     subject, and name every gap being crossed. That gap list is "the edge" between measured and
+     extrapolated.
+  2. **Commensurability guard** — before any number supports OR refutes the edge, check the two
+     quantities are the same kind, place and basis. Refuse (stating why in one line) any apples-to-oranges
+     comparison: a concentration in one compartment used to infer another (blood vs lumen vs intracellular
+     vs tissue, across heavy absorption / first-pass); total vs free/active fraction (e.g. a conjugated
+     metabolite vs the active parent); dose-administered vs concentration-achieved; in-vitro-added vs
+     in-vivo-achievable; peak vs sustained exposure.
+  3. **First-principles estimate — ONLY where the needed quantity was never measured.** A transparent
+     back-of-envelope: build the target quantity from its inputs (dose → moles; the volume/area/time it
+     distributes into; release + clearance kinetics; relevant physiology), tag EVERY assumption with its
+     own confidence and source (measured vs guessed), carry a RANGE (best- and worst-case), compare to the
+     effect threshold as an order-of-magnitude verdict (within ~10× = plausible; ~10–100× = weak/borderline;
+     ~1000× off = implausible), distinguish PEAK vs SUSTAINED where the biology cares, and run a sensitivity
+     check (which assumption the verdict is most fragile to).
+  4. **Verdict + propagation** — emit a tier adjustment (e.g. established→mechanistically-plausible, or a
+     `dose-implausible` flag = cannot bear weight), a one-line edge statement, the estimate +
+     assumptions + range + sensitivity if one was run, and a **`what-would-close-this`** line naming the
+     single measurement that would turn the estimate into a fact (this feeds B6's test plan and the B9
+     invitation). Downstream synthesis and the offer MUST carry the adjusted tier and the edge statement —
+     no silent re-promotion.
+  5. **Self-limit** — a back-of-envelope is not a measurement; output ranges + confidence, never an
+     estimate dressed as a fact; where inputs are too unknown to even estimate, mark the edge
+     `unquantifiable — speculative`. The full reasoning (assumptions, arithmetic, range, what would refute
+     it) is written into the artifact and surfaced wherever the edge is load-bearing, so the person can
+     challenge it.
 - **Fit-check** per shape property: satisfies **yes / no / partial** + the evidence.
 - **Cheapest-discriminator tag.** Every candidate and every load-bearing property carries its single
   cheapest discriminating observation, tagged `askable-now / in-records / needs-test`. This is what B4 then
@@ -1755,7 +1825,10 @@ system* and to *locate intervention points* — not a label, a working model.
 **Artifact:** `mechanism-map-<candidate-slug>.md` per candidate. **Gate:** schema complete (incl.
 `vulnerabilities` + `persistence-structure`); **every exclusion is (a)-strength with a cited primary-source
 sentence** (no (b)/(c) used to exclude); cheapest-discriminator present on every candidate and load-bearing
-property.
+property. For every load-bearing edge that is quantitative or imported from another context, a
+**measurement-edge verdict** is present: commensurability-checked (no apples-to-oranges number is allowed
+to bear weight), `dose-implausible` edges flagged and carrying no weight, and estimate-only edges tagged
+with their assumptions, their range, and the single `what-would-close-this` measurement.
 
 ### Step 5.11 — B4 Resolve cheap discriminators BEFORE weighting
 
@@ -1775,9 +1848,64 @@ left for B6's test plan — they are not resolvable now and must not block conve
 **Gate:** B5 may not assign weight to a candidate that still has an **unresolved `askable-now` or
 `in-records` discriminator**. (Enforced at the convergence-write gate.)
 
-### Step 5.12 — B5 System Simulation + Convergence (probabilistic prioritisation)
+### Step 5.12 — B5.5 System Integration (model the connected system, BEFORE ranking)
 
-**Purpose.** Run each mechanism forward against reality and **prioritise — never crown** (register 0.1).
+**Purpose.** Model the hypotheses **surviving B4** as **concurrent interacting layers of one system**, not as
+rivals competing for a single winner slot — and do this **before** the ranking/demotion step (B5, now 5.14),
+so a connected account is examined before anything is cut. It is rare for co-occurring factors in a complex
+picture to be independent — so look for the **bridging connections** between them and the **shared systemic
+driver** that sits upstream of several. *(Gut instantiation: a gas arm, an amine/behaviour arm, and an
+endotoxin/motility arm may all ride on one underlying process — but the move is domain-neutral.)*
+
+**Operationalisation.** Place the surviving hypotheses side by side and ask: where do their mechanism maps
+share a node? Does one hypothesis's output feed another's input? Is there a **single upstream driver** whose
+correction would move several arms at once? **The systemic root may open a new addressable intervention
+space** — intervening at the root rather than at each member — which B6 then mines for intervention points.
+- **A bridge must be a specific, named connector — not a generic everything-hub.** A shared node counts as a
+  real bridge between two arms only if it is a specific, mechanistically load-bearing connector whose
+  modulation would plausibly move BOTH arms (a named mediator, transporter, barrier node, shared substrate, or
+  a concrete exposure/behaviour). A node that connects almost everything (non-specific inflammation,
+  "oxidative stress", "the microbiome" as a whole) is NOT a bridge on its own — name the specific sub-node
+  that does the connecting, or mark the connection unproven. Default to looking for connection (co-occurring
+  factors in one body are rarely independent), but the connection must be carried by a specific mechanism, not
+  a truism.
+
+Finally, **simulate the combined system against the FULL symptom set**, including symptoms outside the
+primary complaint.
+
+**Artifact:** `system-integration.md` (`## Concurrent layers`, `## Bridging connections`, `## Shared
+systemic driver` (or "none found — <reasoning>"), `## Independent plausibility verdicts` (filled from
+Step 5.13), `## Combined simulation vs full symptom set`). **Gate:** every symptom AND every test/measurement
+result is either accounted for by the combined model or explicitly named as not-yet-explained — nothing is
+left silent.
+
+### Step 5.13 — B5.6 Connection Plausibility Check (independent)
+
+**Purpose.** Independently judge whether the connections B5.5 proposed are real, so the system picture is not
+self-certified. B5.5 deliberately looks for connection; this is the counterweight that keeps a *proposed*
+connection honest — and it runs **before** ranking (B5, 5.14), so only plausible connections inform the rank.
+
+**Operationalisation.** Dispatch **ONE** independent assessor (clean context — it did not write the
+synthesis), given all of B5.5's proposed bridging connections + shared-driver claims plus the relevant data
+for the arms involved. It does whatever research it needs (`/research` as required), then assesses **all** the
+proposed connections together in a single pass — and may surface a plausible connection B5.5 missed. Per
+connection it returns: **plausible / partial / not-plausible** that these arms connect or modulate each other
+this way, with reasoning; and whether the bridge is **specific-and-significant or a generic hub**. **One
+agent, one artifact — never an agent per connection** (that just explodes artifacts).
+
+**Feedback.** A connection rated not-plausible is downgraded in `system-integration.md` to "held open —
+unproven" (not asserted); a generic-hub bridge is returned to B5.5 to be named specifically or dropped; a
+newly-surfaced plausible connection is added to B5.5.
+
+**Artifact:** `connection-plausibility.md` (one row per proposed/surfaced connection: the connection,
+verdict, specific-or-generic, reasoning, research cited). **Gate:** every bridging-connection / shared-driver
+claim in `system-integration.md` carries a verdict from this step before Step 5.14.
+
+### Step 5.14 — B5 System Simulation + Convergence (probabilistic prioritisation)
+
+**Purpose.** Run each mechanism forward against reality and **prioritise — never crown** (register 0.1). This
+runs **last** in the deepening loop, AFTER integration (5.12) and the plausibility check (5.13), so
+ranking/demotion is connection-aware.
 
 **Operationalisation.**
 - **Simulate.** Predict what we would observe if each candidate (and each composite) were operating; lay the
@@ -1787,6 +1915,10 @@ left for B6's test plan — they are not resolvable now and must not block conve
   member that fails the elimination-survival check **alone** is **NOT** demoted if the composite explains its
   survival (e.g. it is sheltered or cross-fed by another member). This is the specific rule that stops the
   engine destroying a true division-of-labour answer by testing each member in isolation.
+- **A cross-cluster connected hypothesis is ranked as the connected whole.** A hypothesis that spans more than
+  one symptom cluster is **NOT** demoted for failing on one cluster alone when Step 5.12 integration +
+  Step 5.13 plausibility established a plausible connection across its clusters — it is simulated and ranked
+  as the connected whole, the same way a composite is ranked as a unit.
 - **Ruled-out ledger.** Every demoted/excluded candidate **plus the specific evidence** that demoted it.
   Surface the highest-likelihood survivors **and** the demoted ones with their disqualifying evidence (the
   offer needs both — register 0.1's "why X over Y, why Z demoted").
@@ -1799,33 +1931,16 @@ left for B6's test plan — they are not resolvable now and must not block conve
 rank-change cites a constraint or observation**; **no aggregate-as-actor survives in any load-bearing line**
 (grain check); no candidate carries an unresolved `askable-now`/`in-records` discriminator (B4).
 
-### Step 5.13 — B5.5 Cross-Hypothesis / System Integration
-
-**Purpose.** Model the **non-demoted** hypotheses as **concurrent interacting layers of one system**, not as
-rivals competing for a single winner slot. It is rare for co-occurring factors in a complex picture to be
-independent — so look for the **bridging connections** between them and the **shared systemic driver** that
-sits upstream of several. *(Gut instantiation: a gas arm, an amine/behaviour arm, and an endotoxin/motility
-arm may all ride on one underlying process — but the move is domain-neutral.)*
-
-**Operationalisation.** Place the surviving hypotheses side by side and ask: where do their mechanism maps
-share a node? Does one hypothesis's output feed another's input? Is there a **single upstream driver** whose
-correction would move several arms at once? **The systemic root may open a new addressable intervention
-space** — intervening at the root rather than at each member — which B6 then mines for intervention points.
-Finally, **simulate the combined system against the FULL symptom set**, including symptoms outside the
-primary complaint; a combined model that leaves real symptoms unexplained must say so.
-
-**Artifact:** `system-integration.md` (`## Concurrent layers`, `## Bridging connections`, `## Shared
-systemic driver` (or "none found — <reasoning>"), `## Combined simulation vs full symptom set`). **Gate:**
-the combined model accounts for the full symptom set or **explicitly names what it does not** explain.
-
-**The loop.** Deepen all non-demoted hypotheses through B1–B5.5; the **second interview** (B4 / B6) and the
-**reverse-engineered responses** (B7, Step 6) feed back to B5 to re-converge; B5.5 re-integrates; continue
-until the ranking stops shifting and the option set is stable. Only then proceed to prioritise-and-offer.
+**The loop.** Deepen all non-demoted hypotheses through B1 → B2 → B3 → B4 → B5.5 (integration, 5.12) → B5.6
+(plausibility, 5.13) → B5 (convergence, 5.14); the **second interview** (B4 / B6) and the
+**reverse-engineered responses** (B7, Step 6) feed back to re-integrate (B5.5), re-check plausibility (B5.6),
+and re-converge (B5); continue until the ranking stops shifting and the option set is stable. Only then
+proceed to prioritise-and-offer.
 
 ### Step 6 — Prioritize (B6 — Intervention, Test & Question Mapping)
 
 **B6 turns the deep model into options — framed as reasoning to be questioned, never a treatment
-plan.** It runs *after* the Phase-B loop (5.8–5.13) has produced the mechanism maps and the
+plan.** It runs *after* the Phase-B loop (5.8–5.14) has produced the mechanism maps and the
 convergence ranking, and it mines those maps for intervention points the way a label never would.
 The existing prioritiser machinery below (value-of-information gate, trial-vs-test, scoring,
 build-up/washout, hard-no pre-flight, symptom-relief track) is **retained in full** — B6 adds the
@@ -1846,7 +1961,7 @@ intervention.
 Every actionable item — whatever surfaced it (B6, B7, or named at the offer) — carries this full
 record before it can appear anywhere downstream:
 - **mechanism** — traced to a *specific* mechanism-map node, including that node's
-  **vulnerability / what-disrupts-it** (the disruptor axis: name *why* this acts);
+  **vulnerability / what-disrupts-it** (the disruptor axis: name *why* this acts); **plus a deep mechanistic account of the intervention itself** — by what chemistry it acts on that node (the verb-chain, the cell types, the location), **produced from a real `/research` + `/research-practitioner` dispatch on the intervention, never asserted from memory**; run the **mechanism-depth interrogation** on this account, including the **measurement-edge verdict on dose-reachability** (does a realistic dose reach the concentration the mechanism needs at the site — commensurable, measured-or-estimated, peak-vs-sustained); any probe the research cannot close is named as the honest residual and surfaced for the B9 invitation;
 - **evidence-tier + source** — the honest tier and the citation behind it;
 - **why-worth-it for this person** — not the general case, this person's picture;
 - **already-doing?** — checked against `working-truth.md`'s `## Tried interventions` and the
@@ -1872,7 +1987,7 @@ can't self-source it — name it as a clinician conversation.
 **B6.e — Round-2 questions → a second interview.** The now-detailed hypotheses generate new
 diagnostic questions; **dedupe them against everything already asked or answered**, then run a
 **second interview** by re-entering the Step-5.5 interview engine. Its answers **feed back to B5**
-(Step 5.12) to re-converge before the offer is built. (This is also where B4's `askable-now`
+(Step 5.14) to re-converge before the offer is built. (This is also where B4's `askable-now`
 discriminators are asked.)
 
 *(Future feature, flagged experimental + doctor-only): a drug-repurposing lookup — which
@@ -2054,7 +2169,7 @@ tried is information — worked, neutral, worsened, failed. For **each empirical
 response** in the treatment-response history, the model must explain *why* it worked / did nothing
 / worsened, in terms of a mechanism-map node:
 - An **unexplained worsening or failure is a flagged hole** (the same kind of signal as an
-  unexplained survival) — it feeds back into B5 (Step 5.12) ranking, because a model that can't
+  unexplained survival) — it feeds back into B5 (Step 5.14) ranking, because a model that can't
   explain a real response is incomplete.
 - A **winner that worked by a mechanism the model did not predict** (e.g. an antibody mopping
   endotoxin that reduced gas *without* killing organisms) is a **clue to a missing model node** —
@@ -2123,7 +2238,7 @@ write-check hook blocks `offering.md` until all four tokens exist (issued via `a
   fails crowning, flat-hedge-after-the-work, process-completion-as-quality, the needless opt-in menu,
   diagnosis-in-own-voice, advisory/treatment-plan tone, and confidence escalation.
 - **substance auditor** (`investigate-audit-substance`, `dispatch-template-substance.md`) — fails any
-  ungrounded narrative/test/uncertainty, and **any actionable item in §5 missing the full B6 record** (the
+  ungrounded narrative/test/uncertainty, and **any actionable item in §5 or §6 missing the full B6 record** (the
   invariant).
 
 A `FAIL` from any governance OR B8 auditor bounces the artifact to the step that owns the gap before the
@@ -2182,6 +2297,20 @@ language, hypothetically.
 (0.1) throughout — never a diagnosis, never crowned, never a flat all-equal hedge. The `offering.md`
 schema mirrors these seven, in order:
 
+> **DEPTH REQUIREMENT (the document's job is to EDUCATE, in plain language, INSIDE this structure — not
+> instead of it).** The seven sections are the skeleton; each must be written so a reader with no background
+> can actually understand the biology. That means, within sections 2, 3, 5 and 6 especially: **define every term
+> the first time it appears** (an amine is …, endotoxin is …, the migrating-motor-complex is the "cleaning
+> wave" that …); **explain each mechanism end-to-end** (what acts on what, in which direction, to produce
+> which symptom — not just naming the node); **name the actual evidence** for each load-bearing claim (which
+> measurement, which genetic variant, which natural experiment) rather than asserting it; and **reconcile the
+> obvious counter-evidence** the person will think of (e.g. "but I eat huge amounts of coconut oil and I'm
+> fine"). Shorthand, bare node-names, and "high-level mechanism mentions" are a FAIL of this requirement — but
+> so is breaking the seven-section schema or the register to achieve depth. Depth AND structure AND register,
+> together. The structure auditor checks the schema; the substance auditor checks that each narrative is
+> mechanistically explained and grounded, not name-dropped. Both must pass before the offer ships — an
+> educational rewrite that skips the council does not count.
+
 1. **Leading hypotheses** — the prioritised, probabilistic set ("the one that appears to most
    closely align with the facts so far is …, then …"); the **composite named as a unit** if one
    leads. **Confidence-band disclaimer (D8) — required wherever any confidence percentage or band
@@ -2200,7 +2329,9 @@ schema mirrors these seven, in order:
 4. **Why these lead, why others were demoted** — the ruled-out ledger (B5) rendered as plain
    narrative: what made the leaders lead, and for each demoted candidate the specific evidence that
    demoted it.
-5. **Targeted small steps** — the low-risk reversible options to consider, **each carrying the full
+5. **Low-risk things to try** — reversible options reasonable to try without needing more data first, in two
+   groups: **Category 1** (aimed at easing symptoms) and **Category 2** (low-risk and may also act on a root
+   cause), **each carrying the full
    B6.b record** (mechanism→node, tier+source, why-for-this-person, already-doing?, hard-no check,
    administration: form/dose-vs-actual/timing/co-intake/interactions). Sequencing presented as
    **reasoning-to-be-questioned, not a plan**. This section also carries:
@@ -2208,13 +2339,17 @@ schema mirrors these seven, in order:
      levers from the Step-6 symptom-relief track, as their own group, framed *"these aim to reduce
      what you're feeling, not to tell us which explanation is right"* (a lever that does both is
      noted; a relief-only lever is still offered so comfort isn't held hostage to the investigation).
-   - **Anything worth taking seriously even if it's not the most likely** — where ignoring a
-     candidate and being wrong would do real harm (irreversible, escalating, or time-sensitive), that
-     candidate is flagged on its own, separately from the likelihood ordering.
-6. **Uncertainties + the value of resolving them** — what is still uncertain and why; how resolving
-   each would (or wouldn't) help; and the tests that could resolve it, split **cheap-at-home vs
-   more-expensive**, **each stating the decision its result would change** (first field) and what
-   each possible result might suggest.
+   - **High-consequence-if-missed possibilities are NOT low-risk trials** — where ignoring a candidate and
+     being wrong would do real harm (irreversible, escalating, or time-sensitive), it is carried in section 6
+     (a definitive test before any action — the rule-out-regardless track) and flagged with the leading
+     hypotheses in section 1, never offered here as a thing to try blind.
+6. **Higher-risk options, and what to test first** — options that may act on a root cause (and possibly
+   symptoms) but carry real downside — side-effects, irreversibility, escalation — so the risk/reward only
+   makes sense after more data; each is paired with the **test(s) that should precede it**. This section also
+   carries the **remaining uncertainties worth resolving**, and any **high-consequence-if-missed candidate
+   that warrants a definitive test regardless of how likely it is** (the rule-out-regardless track). Tests are
+   split **cheap-at-home vs more-expensive**, **each stating first the decision its result would change**,
+   then the node it addresses and what each possible result would tilt toward, and why.
 7. **What knowing more would unlock** — what becomes doable, which options open up, once a given
    uncertainty is resolved.
 
@@ -2227,7 +2362,23 @@ Plus two cross-cutting requirements:
 
 **Invariant (enforced by the Step-7 council substance auditor): every actionable item in the offer —
 whatever operation surfaced it (B6 / B7 / B8) — carries the full B6.b record.** No item may appear
-in section 5 without it.
+in section 5 or 6 without it.
+
+**How the offer is produced — section by section, not one pass.** The offering is written one section at a
+time, each by a dispatched `INVESTIGATE-ROLE: investigate-offer` agent, so each section gets the most-relevant
+worked examples *fresh* in context and no single example anchors the whole document. For each of the seven
+sections, in order: dispatch the offer-writer with (a) the section's spec (the numbered list above), (b) that
+section's worked-example file `references/offer-examples/s<N>.md` — the depth and register to MATCH (read it,
+do not copy it), (c) the upstream artifacts that section draws from (e.g. §2 ← the deepened mechanism maps +
+`system-integration.md`; §4 ← `convergence-<Hn>.md`'s ruled-out ledger; §5/§6 ← `step6-prioritize.md`), and
+(d) the sections already written (`offering-draft.md`) for continuity and to avoid repetition. The agent
+writes only its section, appended to `offering-draft.md`; it INTEGRATES the depth the producers already closed
+(every load-bearing mechanism having passed the mechanism-depth interrogation upstream) and does NOT research
+— a missing dose / mechanism / availability is flagged under `## Gaps for upstream`, never invented. After all
+seven sections plus the two cross-cutting requirements (lower hypotheses named; hard-no section), the Step-7
+council runs on the assembled draft; on a confident pass the gated `offering.md` is written (audit-council
+tokens + read-attestation, as above). Writing section-by-section is what lets the depth-and-register bar
+actually be met per section rather than diluted across one long pass.
 
 **Sourcing handoff (when the person chooses to act on an item) — never auto-batch.** Sourcing is
 **never** auto-run on the AI's own list. First **establish purchase geography** — where the person
@@ -2313,10 +2464,16 @@ sign-off**.
   - *"Let's go back to the bare mechanism map — for every node in the sequence, what could we do to
     intervene there?"* — re-runs B6.a per-node discovery *with* the person, forcing novel-node
     discovery beyond the standard label.
+  - *"There are a few things we couldn't settle as plausible-or-not, because the study that would
+    measure them directly has never been done — for those, the best anyone can do is a transparent
+    back-of-the-envelope estimate from first principles. Would you like us to work through that estimate
+    for any of them, with every assumption shown so you can question it?"* — surfaces every edge the B3
+    measurement-edge check marked `unquantifiable` or estimate-only (no direct study exists), and offers
+    to run or extend the first-principles estimate. Register-clean — an invitation, not a recommendation.
 
 *Output:* `<root>/open-threads-and-invitation.md` (the named reading order, the self-critique thin
-spots, and the specific invited questions). This feeds the Step-8 iterate loop — an answer to any
-invited question re-enters at the step that owns it.
+spots, the specific invited questions, and the unstudied-gap back-of-envelope offers). This feeds the
+Step-8 iterate loop — an answer to any invited question re-enters at the step that owns it.
 
 ### Step 8 — Iterate
 
@@ -2516,7 +2673,7 @@ the first decision-log entry — a run with no bootstrap entry was started incor
      (D6) rules live in `references/working-truth-ledger.md`. Lens-agnostic (also used by the OPTIMIZE lens).
    - `coherence-map.md` — empty stub; the Step-5→6 deepen → coherence → strengthen/weaken/neutral loop
      (`## Deepening — <Hn>`, `## Discrepancies`, `## Verdicts`). Contract in `references/coherence-map.md`.
-   - **Phase-B deepening-loop artifacts (Steps 5.8–5.13)** — the per-hypothesis and per-candidate files
+   - **Phase-B deepening-loop artifacts (Steps 5.8–5.14)** — the per-hypothesis and per-candidate files
      are created **during the loop**, not stubbed (like the `research/` files), because their count and
      slugs are not known until Step 4.5 fixes the hypothesis set: `constraints-<Hn>.md` (B1),
      `shape-profile-<Hn>.md` (B2), `mechanism-map-<candidate-slug>.md` (B3, one per candidate),
@@ -2524,7 +2681,7 @@ the first decision-log entry — a run with no bootstrap entry was started incor
      B6 intervention/test options stay folded into `step6-prioritize.md` (existing gate); the B6.e
      round-2 questions enter `question-bank.md` as a fresh `### Pass N` (second interview). The
      **single-file** B-loop artifacts are stubbed:
-   - `system-integration.md` — empty stub; Step 5.13 (B5.5) writes the cross-hypothesis concurrent-layers
+   - `system-integration.md` — empty stub; Step 5.12 (B5.5) writes the cross-hypothesis concurrent-layers
      model, bridging connections, shared systemic driver, and the combined-simulation-vs-full-symptom-set.
    - `open-threads-and-invitation.md` — empty stub; Step 7.5 (B9) writes the named reading order, the
      self-critique thin-spots, and the specific invited questions (empowerment hand-off).
@@ -2718,7 +2875,7 @@ files, N read, 0 unread." A non-zero unread count blocks the write. (Patch track
   updated last at every synthesis step. Spec: `references/working-truth-ledger.md`
 - `<root>/coherence-map.md` — the Step-5→6 deepen → coherence → strengthen/weaken/neutral loop output
   (`## Deepening — <Hn>` / `## Discrepancies` / `## Verdicts`). Spec: `references/coherence-map.md`
-- **Phase-B deepening-loop outputs (Steps 5.8–5.13):** `constraints-<Hn>.md` (B1 must-fit + blind-spot
+- **Phase-B deepening-loop outputs (Steps 5.8–5.14):** `constraints-<Hn>.md` (B1 must-fit + blind-spot
   constraints, incl. onset + survival-explanation), `shape-profile-<Hn>.md` (B2 required properties +
   decomposition + tension grades), `mechanism-map-<candidate-slug>.md` (B3 domain-neutral schema +
   vulnerabilities + claim-strength exclusions + cheapest-discriminator), `convergence-<Hn>.md` (B5
@@ -2778,7 +2935,7 @@ dispatches actually happened*. This is the harness that forces the sequence. The
   (e) for each `[slug: <slug>]` enumerated in `step2-mechanism-map.md`'s `## Anomalies` section, a
   `research/anomaly-<slug>-*.md` test-result-anchored mechanism map exists (Dm) — satisfied without any such
   file only when the `## Anomalies` section is the `NO OUT-OF-BOUNDS RESULTS — <reason>` line.
-- **Phase-B deepening-loop gates (Steps 5.8–5.13 — each Write blocked until its upstream is well-formed;
+- **Phase-B deepening-loop gates (Steps 5.8–5.14 — each Write blocked until its upstream is well-formed;
   hook enforcement added in Phase 5, contract recorded here).** Run per leading non-null `Hn` (and per
   composite element + the combination):
   - **B1 (5.8) →** the Write of `constraints-<Hn>.md` requires a non-empty `## Must-fit constraints` (incl.
@@ -2791,7 +2948,10 @@ dispatches actually happened*. This is the harness that forces the sequence. The
   - **B3 (5.10) →** the Write of each `mechanism-map-<candidate-slug>.md` is blocked unless
     `shape-profile-<Hn>.md` exists, the domain-neutral schema is complete (incl. `vulnerabilities` +
     `persistence-structure`), **every exclusion is (a)-strength with a cited primary-source sentence** (no
-    `(b)`/`(c)` strength tag used to exclude a candidate), and a cheapest-discriminator tag is present.
+    `(b)`/`(c)` strength tag used to exclude a candidate), and a cheapest-discriminator tag is present. (The
+    **measurement-edge verdict** on each quantitative/imported edge and the **mechanism-depth interrogation**
+    are SEMANTIC checks — verified by the Step-7 substance auditor reading the produced text,
+    not by this structural write-gate, just as the register's semantic class is.)
   - **B5 (5.12) →** the Write of `convergence-<Hn>.md` is blocked unless, for each leading `Hn`, a
     per-candidate `mechanism-map-*.md` exists with its fit-check; a `## Ruled-out ledger` is present and
     **every rank-change cites a constraint or observation**; **no aggregate-as-actor survives in any
@@ -2832,6 +2992,19 @@ synthesis does NOT** — so when synthesis is inline, follow this list deliberat
 `working-hypothesis.md`, `step5-cross-check.md`, `hypothesis-set.md`, `step6-prioritize.md`,
 `offering.md`. Hooks fire on Write AND Edit (an Edit is checked on its `new_string` only).
 
+> **DELEGATION IS THE DEFAULT — inline synthesis by the orchestrator is the documented bias+churn vector.**
+> The orchestrator holds all of `MEMORY.md` every turn, including the subject's prior *conclusions* (frames,
+> named targets, the hard-no list that is itself downstream of those frames). The blind generative roles
+> (`builder`/`enumerate`/`hypothesize`) and the `synthesis`/`deepen` roles are walled off from that via
+> `subagent-context.sh` (clean context + memory-role separation + the full compliance contract). So **for
+> every gated file, dispatch the owning role (Step-2 mechanism map, Step-4 enumerate/hypothesize, Step-4.5
+> synthesis, Phase-B deepen, Step-7 offer) as a sub-agent and let it write — do NOT write it inline.** Inline
+> synthesis is permitted only as a last resort (a role dispatch is genuinely impossible), and then you must
+> (a) actively quarantine prior-conclusion memory — treat MEMORY.md conclusions as one hypothesis to re-derive,
+> not as ground truth — and (b) follow this entire list by hand, because none of it is injected for you. Every
+> rewrite-on-deny and every "I just re-derived the prior answer" in the 2026-06 self-test traced to inline
+> synthesis; delegation removes both at once.
+
 1. **Tier + source, same sentence.** Any sentence containing a tier marker `T0`–`T5` must also
    contain, in the *same* sentence, `[src: <file-or-S##>]` or `[ledger: <id>]` (or
    `verification: pending` / `orchestrator-memory only`). **Most robust: write tiers as register
@@ -2850,6 +3023,12 @@ synthesis does NOT** — so when synthesis is inline, follow this list deliberat
 3. **`[src:]` must resolve.** The filename must be a file you have **Read this session** (basename
    match) or an `S##` id. A file you only *wrote* is NOT in the read-log — Read it first, or cite it
    as `[ledger: <id>]`. Use `[ledger:]` for research findings you have summaries of but haven't Read.
+   **FORMAT GOTCHA (causes a silent deny):** the hook reads the filename up to the first comma or `]`.
+   A sub-id must follow a **comma**, never a space: write `[src: working-truth.md, A-2]` (resolves to
+   `working-truth.md`), NOT `[src: working-truth.md A-2]` (the hook reads the filename as
+   "working-truth.md A-2" and denies). Same for values/dates: `[src: lab-trends.md, 2024-09-25]`.
+   **Synthesising from your OWN upstream artifacts (constraints-/shape-/mechanism-map-/convergence-):
+   Read each one this session before you cite it** — writing it does not put it in the read-log.
 4. **Label density (working-hypothesis / step2 / step5 / step6 / hypothesis-set).** Keep
    diagnosis-label tokens ≤ 1 per 200 body words; put ALL of them in a trailing `## Labels referenced`
    section, which must be the **last** section. Tokens (from `references/label-tokens.md`) are
@@ -2884,6 +3063,11 @@ synthesis does NOT** — so when synthesis is inline, follow this list deliberat
 7. **Gate tokens / sequence.** `step5-cross-check.md` needs the research pairs + diversity judge +
    practitioner-rubric on disk first; `offering.md` needs the audit-council token + `extracted/spot-check.md`
    (see the required-artifact contract above).
+7b. **Read-attestation precondition (`step6-prioritize.md` and `offering.md`).** The read-attestation hook
+   blocks these two until **every** top-level `research/*.md` and `graphs/*.md` file present in the run root
+   has been Read this session (it enumerates whatever is on disk — grep/Task-summaries do not count). Plan
+   for it: Read each research + graph file before the Step-6/Step-7 write, or the write is denied with the
+   unread list. (If you seeded the run with a curated research subset, only that subset is required.)
 8. **No deletion / no `rm` in scripts** under `<root>` before the finish-line (pre-tool-scan +
    cleanup-block). OCR scratch renders go to `<root>/extracted/_staged/_verify/` and are left in place.
 
@@ -2933,7 +3117,11 @@ hold:
    alongside, with a plain description of what each possible result might suggest.
 5. Anything the working hypothesis doesn't yet account for is named plainly. Honest gaps
    are part of what's offered, not a failure of the procedure.
-6. **The offering has actually been surfaced to the person** — `offering.md` and its options /
+6. Every proposed item (trial / test / relief lever) has passed the **hard-no / constraint check** —
+   clear, flagged-with-reason, or excluded — and **zero excluded items reach the offering**.
+7. The offering reads **register-clean** — probabilistic, non-directive, non-diagnostic — and
+   **audit-council-verified**, not self-graded.
+8. **The offering has actually been surfaced to the person** — `offering.md` and its options /
    tests / symptom-relief sections opened and presented, not left on disk under a chat summary.
    Writing the file is not the finish line; delivering it is.
 

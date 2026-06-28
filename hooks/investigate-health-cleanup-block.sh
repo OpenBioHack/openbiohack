@@ -32,7 +32,7 @@ case "$CMD" in
     *) exit 0 ;;
 esac
 
-if investigate_has_finish_line_token "$SESSION"; then
+if investigate_has_finish_line_token_anchored "$SESSION" "$FILE_PATH"; then
     bash "$LOGGER" "investigate-health-cleanup-block" "bash" "session=$SESSION" "allow-post-finish-line" 2>/dev/null || true
     exit 0
 fi

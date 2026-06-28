@@ -121,3 +121,99 @@ investigate_has_audit_token() {
     d="$(investigate_state_dir "$session")"
     [ -f "$d/audit-tokens/$gate.token" ]
 }
+
+# --- run-root-anchored audit tokens (compaction-proof; mirrors .investigate-active activation) ---
+# session_id can roll across compaction, orphaning session-keyed tokens. These also store/check tokens
+# under <run-root>/.investigate-tokens so a gated write survives a session-id change.
+investigate_run_token_dir() {
+    local start="$1" root
+    root="$(investigate_find_active_root "$start" 2>/dev/null)" || return 1
+    [ -n "$root" ] || return 1
+    local d="$root/.investigate-tokens"
+    mkdir -p "$d" 2>/dev/null || true
+    command -v investigate_register_root >/dev/null 2>&1 && investigate_register_root "$root"
+    printf '%s' "$d"
+}
+investigate_has_audit_token_anchored() {
+    local session="$1" gate="$2" start="$3" td
+    investigate_has_audit_token "$session" "$gate" && return 0
+    td="$(investigate_run_token_dir "$start" 2>/dev/null)" || return 1
+    [ -n "$td" ] && [ -f "$td/$gate.token" ]
+}
+investigate_has_finish_line_token_anchored() {
+    local session="$1" start="$2" td
+    investigate_has_finish_line_token "$session" && return 0
+    td="$(investigate_run_token_dir "$start" 2>/dev/null)" || return 1
+    [ -n "$td" ] && [ -f "$td/finish-line.token" ]
+}
+# --- end run-root-anchored audit tokens ---
+
+# --- run-root-anchored read-log + pending-patch (compaction-proof) ----------------------------------
+investigate_record_read_anchored() {
+    local session="$1" path="$2" start="$3" d
+    investigate_record_read "$session" "$path"
+    [ -n "$path" ] || return 0
+    d="$(investigate_run_token_dir "$start" 2>/dev/null)" || return 0
+    [ -n "$d" ] && printf '%s\n' "$path" >> "$d/read-log" 2>/dev/null || true
+}
+investigate_was_read_anchored() {
+    local session="$1" path="$2" start="$3" d
+    investigate_was_read "$session" "$path" && return 0
+    d="$(investigate_run_token_dir "$start" 2>/dev/null)" || return 1
+    [ -n "$d" ] && [ -f "$d/read-log" ] && grep -Fxq "$path" "$d/read-log"
+}
+investigate_set_pending_patch_anchored() {
+    local session="$1" sp="$2" start="$3" d
+    investigate_set_pending_patch "$session" "$sp"
+    d="$(investigate_run_token_dir "$start" 2>/dev/null)" || return 0
+    [ -n "$d" ] && printf '%s\n' "$sp" > "$d/pending-patch" 2>/dev/null || true
+}
+investigate_get_pending_patch_anchored() {
+    local session="$1" start="$2" d v
+    v="$(investigate_get_pending_patch "$session" 2>/dev/null || true)"
+    [ -n "$v" ] && { printf '%s' "$v"; return 0; }
+    d="$(investigate_run_token_dir "$start" 2>/dev/null)" || return 1
+    [ -n "$d" ] && [ -s "$d/pending-patch" ] && cat "$d/pending-patch"
+}
+investigate_clear_pending_patch_anchored() {
+    local session="$1" start="$2" d
+    investigate_clear_pending_patch "$session"
+    d="$(investigate_run_token_dir "$start" 2>/dev/null)" || return 0
+    [ -n "$d" ] && : > "$d/pending-patch" 2>/dev/null || true
+}
+# --- end run-root-anchored read-log + pending-patch ---
+
+# --- session-independent active-run registry (so the cwd-only injector survives a session-id roll) ---
+# A run-root has a path INSIDE it (the gated writes), so the gating hooks can register it; the
+# UserPromptSubmit injector only has cwd (often the PARENT of the run root), so walk-up can't find a
+# child-dir marker. This registry + a bounded down-search make the injector session-independent.
+INVESTIGATE_REGISTRY="${INVESTIGATE_REGISTRY:-${INVESTIGATE_STATE_BASE:-/tmp/claude}/active-roots}"
+investigate_register_root() {
+    local root="$1" key
+    [ -n "$root" ] && [ -d "$root" ] || return 0
+    mkdir -p "$INVESTIGATE_REGISTRY" 2>/dev/null || return 0
+    key="$(printf '%s' "$root" | sed 's#[/ ]#_#g')"
+    printf '%s\n' "$root" > "$INVESTIGATE_REGISTRY/$key" 2>/dev/null || true
+}
+investigate_cwd_has_active_run() {
+    local cwd="$1" f root m d
+    [ -n "$cwd" ] || return 1
+    # (a) marker at/above cwd
+    investigate_find_active_root "$cwd" >/dev/null 2>&1 && return 0
+    # (b) registry: a still-active root related to cwd (root under cwd, cwd under root, or equal)
+    if [ -d "$INVESTIGATE_REGISTRY" ]; then
+        for f in "$INVESTIGATE_REGISTRY"/*; do
+            [ -f "$f" ] || continue
+            root="$(cat "$f" 2>/dev/null)"; [ -n "$root" ] || continue
+            [ -f "$root/.investigate-active" ] || continue
+            case "$cwd/" in "$root"/*) return 0;; esac
+            case "$root/" in "$cwd"/*) return 0;; esac
+            [ "$cwd" = "$root" ] && return 0
+        done
+    fi
+    # (c) bounded down-search fallback (self-registers what it finds)
+    m="$(find "$cwd" -maxdepth 3 -name .investigate-active -type f 2>/dev/null | head -n1)"
+    if [ -n "$m" ]; then d="$(dirname "$m")"; investigate_register_root "$d"; return 0; fi
+    return 1
+}
+# --- end active-run registry ---

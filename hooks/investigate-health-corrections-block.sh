@@ -46,10 +46,10 @@ print(json.dumps({
 }
 
 # (1) Check pending-patch FIRST — gates any non-conforming next call
-PENDING=$(investigate_get_pending_patch "$SESSION" 2>/dev/null || true)
+PENDING=$(investigate_get_pending_patch_anchored "$SESSION" "$FILE_PATH" 2>/dev/null || true)
 if [ -n "$PENDING" ]; then
     if [ "$TOOL" = "Edit" ] && [ "$FILE_PATH" = "$PENDING" ]; then
-        investigate_clear_pending_patch "$SESSION"
+        investigate_clear_pending_patch_anchored "$SESSION" "$FILE_PATH"
         bash "$LOGGER" "investigate-health-corrections-block" "$TOOL" "session=$SESSION patch-cleared=$PENDING" "allow" 2>/dev/null || true
     else
         deny "Pending patch: a previous Write referenced a deferral on skill artifact $PENDING but did not patch it. Rule: investigate-health SKILL.md Caught mistakes are root-caused, not memo'd / Patch-then-rerun. The next tool call after catching an upstream bug must be Edit on the named upstream artifact — deferring to next round = the catch doesn't count. To proceed: run Edit on $PENDING with the fix, then the flag clears. If the deferral wording was a false positive, edit the prior Write to remove it."
@@ -89,7 +89,7 @@ if m:
     print(p)
 " 2>/dev/null) || true
         if [ -n "$SKILL_PATH" ]; then
-            investigate_set_pending_patch "$SESSION" "$SKILL_PATH"
+            investigate_set_pending_patch_anchored "$SESSION" "$SKILL_PATH" "$FILE_PATH"
             bash "$LOGGER" "investigate-health-corrections-block" "$TOOL" "session=$SESSION pending-set=$SKILL_PATH" "warn" 2>/dev/null || true
         fi
     fi

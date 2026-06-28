@@ -22,10 +22,12 @@ against `offering.md` and the upstream artifacts it must trace to.
    2. Plausible narratives — how each may be working; concurrent processes + systemic bridge named.
    3. Mechanistic intervention points — the per-node map from B6.
    4. Why these lead, why others were demoted — the ruled-out ledger as plain narrative.
-   5. Targeted small steps — each carrying the full B6 record (the substance auditor checks the
-      record's *contents*; you check the section *exists* and lists steps).
-   6. Uncertainties + the value of resolving them — with the tests (cheap-at-home / expensive),
-      each stating the decision it changes.
+   5. Low-risk things to try — Category 1 (ease symptoms) + Category 2 (low-risk, may also act on a
+      root cause), each carrying the full B6 record (the substance auditor checks the record's
+      *contents*; you check the section *exists* and lists steps).
+   6. Higher-risk options, and what to test first — higher-risk / mostly-root-cause options each paired
+      with the test that should precede it, plus the remaining uncertainties and any rule-out-regardless
+      test; tests split cheap-at-home / expensive, each stating the decision it changes.
    7. What knowing more would unlock.
    A missing or empty-in-substance section is a **FAIL**.
 2. **Each section traces to a real upstream artifact.** §4 must reflect the actual B5 ruled-out

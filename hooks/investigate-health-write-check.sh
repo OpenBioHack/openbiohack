@@ -54,6 +54,8 @@ investigate_is_active "$CWD" "$FILE_PATH" || exit 0
 
 INVESTIGATE_STATE_DIR="$(investigate_state_dir "$SESSION")"
 export INVESTIGATE_STATE_DIR
+INVESTIGATE_RUN_STATE_DIR="$(investigate_run_token_dir "$FILE_PATH" 2>/dev/null || true)"
+export INVESTIGATE_RUN_STATE_DIR
 
 deny() {
     local reason="$1"
@@ -234,7 +236,7 @@ case "$BASENAME" in
     printf '%s' "$CONTENT" | grep -qiE 'persistence[- ]structure|persistence structure' || MISS="$MISS persistence-structure(+disruptors)"
     printf '%s' "$CONTENT" | grep -qiE 'askable-now|in-records|needs-test' || MISS="$MISS cheapest-discriminator-tag(askable-now/in-records/needs-test)"
     # exclusion discipline: any exclusion must be (a)-strength; a (b)/(c) tag used to EXCLUDE is denied.
-    BADEXCL=$(printf '%s' "$CONTENT" | grep -niE '\((b|c)\)' 2>/dev/null | grep -iE 'exclud|ruled out|removed|eliminat' || true)
+    BADEXCL=$(printf '%s' "$CONTENT" | grep -niE '\((b|c)\)' 2>/dev/null | grep -iE 'exclud|ruled out|removed|eliminat' | grep -ivE '\bnot\b|\bnever\b|kept in|retained|may (lower|reduce|down-weight)|lowers? weight|only an?[[:space:]]*\(a\)|claim-strength|legend' || true)
     [ -z "$BADEXCL" ] || MISS="$MISS (b)/(c)-strength-used-to-exclude[$(printf '%s' "$BADEXCL" | head -1 | cut -c1-80)]"
     if [ -n "$MISS" ]; then
         deny "B3 gate (Step 5.10): mechanism-map $BASENAME blocked until the domain-neutral schema and exclusion discipline are complete. MISSING:$MISS . Per SKILL.md B3: every node needs a 'vulnerabilities' entry and a 'persistence-structure' (+ disruptors); every candidate/load-bearing property carries a cheapest-discriminator tag (askable-now / in-records / needs-test); and ONLY an (a) examined-and-excluded-with-mechanism finding (citing a primary-source sentence) may EXCLUDE a candidate — a (b) primarily/mostly or (c) never-examined tag may lower but must NOT exclude."
@@ -378,15 +380,18 @@ UNREAD=$(printf '%s' "$CONTENT" | python3 -c "
 import sys, re, os
 text = sys.stdin.read()
 state_dir = os.environ.get('INVESTIGATE_STATE_DIR', '')
-read_log = os.path.join(state_dir, 'read-log')
 read_paths = set()
-if read_log and os.path.exists(read_log):
-    with open(read_log) as f:
-        for line in f:
-            p = line.strip()
-            if p:
-                read_paths.add(p)
-                read_paths.add(os.path.basename(p))
+for _d in (state_dir, os.environ.get('INVESTIGATE_RUN_STATE_DIR','')):
+    if not _d:
+        continue
+    _rl = os.path.join(_d, 'read-log')
+    if os.path.exists(_rl):
+        with open(_rl) as f:
+            for line in f:
+                p = line.strip()
+                if p:
+                    read_paths.add(p)
+                    read_paths.add(os.path.basename(p))
 for m in re.finditer(r'\[src:\s*([^,\]]+)', text):
     ref = m.group(1).strip()
     refname = os.path.basename(ref)
@@ -416,13 +421,13 @@ fi
 # Check 4 — gated Writes need audit-council tokens
 case "$BASENAME" in
     offering.md)
-        if ! investigate_has_audit_token "$SESSION" "offering"; then
+        if ! investigate_has_audit_token_anchored "$SESSION" "offering" "$FILE_PATH"; then
             deny "Write to offering.md requires an audit-council token. The finish-line audit-council must pass before the person-facing offering is written. Run audit-council-completion.sh <session> offering <claim-id> AND audit-council-completion.sh <session> finish-line <claim-id> after audit dispatch."
         fi
         # New B8 council auditors — each must pass and issue its token before the offer ships.
         AUDIT_MISSING=""
         for g in decomposition structure register substance; do
-            investigate_has_audit_token "$SESSION" "$g" || AUDIT_MISSING="$AUDIT_MISSING $g"
+            investigate_has_audit_token_anchored "$SESSION" "$g" "$FILE_PATH" || AUDIT_MISSING="$AUDIT_MISSING $g"
         done
         if [ -n "$AUDIT_MISSING" ]; then
             deny "Write to offering.md requires the four B8 council auditors to PASS first. MISSING tokens:$AUDIT_MISSING . Dispatch each auditor (INVESTIGATE-ROLE: investigate-audit-<role>, templates in references/council/), aggregate per references/council/aggregation-rule.md, and on a confident PASS run: audit-council-completion.sh <session> <role> <claim-id> for each of decomposition (grain), structure (7-section completeness), register (non-diagnosis), substance (every actionable item carries the full B6 record). A FAIL bounces the artifact to the owning step before the offer is written."

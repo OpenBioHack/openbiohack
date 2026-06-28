@@ -26,7 +26,7 @@ offering's prose alone.
 3. **Uncertainties grounded.** Each uncertainty (§6) ties to the value of resolving it (how resolving
    it would or wouldn't change what the person could do). An uncertainty with no value-of-resolving =
    **FAIL**.
-4. **THE B6-RECORD INVARIANT (the critical one).** Every actionable item in §5 — whatever operation
+4. **THE B6-RECORD INVARIANT (the critical one).** Every actionable item in §5 or §6 — whatever operation
    surfaced it (B6 per-node discovery, B7 reverse-engineered response, or B8) — carries the FULL B6
    record:
    - mechanism traced to a specific mechanism-map node, **including that node's vulnerability /
@@ -59,3 +59,11 @@ confidence-in-own-audit: <low | medium | high — NOT a numeric percentage>
 ```
 
 Any `blocking` finding makes `overall: FAIL`. You return the YAML, nothing else.
+
+## Depth (educational) — added 2026-06
+
+FAIL any narrative or actionable item in ANY section (especially §2 plausible narratives, §5 low-risk-to-try items, and §6 higher-risk options + their tests) that names a mechanism/node without explaining it end-to-end for a non-expert: define each term on first use; state what acts on what, in which direction, to produce which symptom; name the actual evidence (measurement / genetic variant / natural experiment); and reconcile the obvious counter-evidence. Bare node-names / shorthand / high-level mechanism mentions are a depth FAIL even when the node is correct. Depth never excuses breaking the 7-section schema or the register.
+
+## Mechanism-depth interrogation (added 2026-06)
+
+Additionally, FAIL any load-bearing mechanism with an **unclosed probe** (SKILL front matter, "Mechanism-depth interrogation"): **WHAT** (a vague actor — "certain bacteria", "the barrier"), **BY-WHAT** (an outcome asserted with no chemistry — "improves the barrier", "calms inflammation"), **WHERE** (no anatomical location), **HOW-MUCH** (an amount-dependent claim with no measurement-edge verdict), or **MEASURED-OR-EXTRAPOLATED** (silent on whether it was measured in this subject/context). Every residual must be explicitly flagged; any dose-reachability claim — especially for a proposed intervention — must carry a **measurement-edge verdict** (commensurable comparison, measured-or-estimated, peak-vs-sustained). Read the offer once **as a layperson** (can each chain be retold fully and accurately?) and once **as a skeptic** (was any probe skipped or papered over?). An unclosed-and-unflagged probe is a **FAIL**.

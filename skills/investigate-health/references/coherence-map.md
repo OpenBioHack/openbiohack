@@ -47,7 +47,10 @@ is exactly what the coherence hunt exists to surface and force an explanation fo
 ### `## Deepening — <Hn>`
 One per live hypothesis. The per-hypothesis understanding notes: what each symptom / test / timeline-point /
 treatment-date would *mean* if this hypothesis were true; which data is silent and which speaks. This is
-understanding, not verdicts — no strengthen/weaken language here.
+understanding, not verdicts — no strengthen/weaken language here. The notes must also **build or extend the
+hypothesis's narrated end-to-end chain to the felt symptom** and run the **mechanism-depth interrogation**
+(SKILL front matter — WHAT / BY-WHAT / WHERE / HOW-MUCH / MEASURED-OR-EXTRAPOLATED / RESIDUAL); any probe
+research cannot close becomes an `OPEN-GAP` with its measurement-edge estimate.
 
 ### `## Discrepancies`
 Every discrepancy the coherence hunt surfaced, each on its own line, each **either** carrying its mechanism
