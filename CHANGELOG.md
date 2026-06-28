@@ -3,6 +3,19 @@
 All notable changes to OpenBioHack are recorded here. The bundle is generated from the canonical
 engine by `build/build-bundle.sh`; entries describe the engine behaviour the public bundle ships.
 
+## 0.3.1
+
+Bundle-quality follow-up to 0.3.0.
+
+### Changed
+- Scrubbed register-borderline wording from the offer-example library (s2/s3/s6) — removed "fixable",
+  "you should", and stray "clearly" so the worked examples hold the same non-directive, person-facing
+  register the offer-writer must match (they are the bar it copies).
+
+### CI
+- `register-sweep` now also lints the offer-example library (`references/offer-examples/*.md`), not just
+  the standalone content docs — closing a gap where the register-critical examples weren't being checked.
+
 ## 0.3.0
 
 The engine now produces its mechanistic depth itself — and checks its own work for shallowness — so the

@@ -1,6 +1,6 @@
 {
   "name": "openbiohack",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A first-principles, non-directive thinking partner for hard, ambiguous health problems — and for health optimization. Runs in your own Claude Code, on your own data. Educational/research only; not medical advice.",
   "author": {
     "name": "Teo Embers"

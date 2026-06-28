@@ -21,6 +21,13 @@ FILES=(
   "templates/experiment-log.md"
 )
 
+# Also sweep the offer-example library: these are client-facing OFFER prose (the bar the
+# offer-writer matches), so they must hold the person-facing register even though they live in
+# the skill. Globbed so newly-added examples are covered automatically.
+for _oe in "$ROOT"/skills/investigate-health/references/offer-examples/*.md; do
+  [ -f "$_oe" ] && FILES+=("${_oe#"$ROOT"/}")
+done
+
 # Pattern => human label. Each is a register leak when it appears in a content doc.
 PATTERNS=(
   '\b(fixable|will resolve|will fix|solves it)\b|\bwill (boost|cure|enhance)\b::outcome-promise'
