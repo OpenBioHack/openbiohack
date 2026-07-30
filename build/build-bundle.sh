@@ -30,6 +30,32 @@ for s in investigate-health extract-health-data research research-practitioner; 
   [ -d "$CAN/$s" ] || { echo "  !! canonical missing: $s"; exit 1; }
   cp -RL "$CAN/$s" "$STAGE/skills/$s"; echo "  staged $s"
 done
+
+# NEVER-SHIP list, applied to the staging tree only. See the note at the top of this section: these are
+# excluded because of what they are, not because of a value inside them.
+echo "== 1b. drop what never ships =="
+NEVER_SHIP="references/REWORK-CORRECTIONS-LOG.md
+references/REWORK-PHASE1-CONTRACT.md
+references/REWORK-PHASE2-BUILD-SPEC.md
+references/REWORK-PROGRESS.md
+references/PACKAGING.md
+references/PACKAGING-NOTES.md
+references/narrative-source.md
+references/steps/_superseded
+references.OLD-numbered-step-20260716"
+printf '%s\n' "$NEVER_SHIP" | while IFS= read -r rel; do
+  [ -n "$rel" ] || continue
+  for d in "$STAGE"/skills/*/; do
+    target="$d$rel"
+    [ -e "$target" ] || continue
+    rm -rf -- "${target:?}"
+    echo "  dropped ${target#"$STAGE"/skills/}"
+  done
+done
+# compiled Python, wherever it sits in the staged tree
+find "$STAGE" -name '__pycache__' -type d -prune -exec rm -rf -- {} + 2>/dev/null || true
+find "$STAGE" -name '*.pyc' -delete 2>/dev/null || true
+echo "  dropped any __pycache__ and *.pyc"
 # product-search is left alone in the bundle, so carry the committed copy through unchanged.
 [ -d "$BR/product-search" ] && cp -R "$BR/product-search" "$STAGE/skills/product-search"
 echo "  (product-search left as-is — bundle is ahead: Step 2.5 + maintenance)"
@@ -37,8 +63,19 @@ echo "  (product-search left as-is — bundle is ahead: Step 2.5 + maintenance)"
 echo "== 2. drop stray .bak =="
 find "$STAGE" -name '*.bak*' -delete; echo "  done"
 
-echo "== 3. scrub (kept private) =="
-echo "  (the scrubber is not published — its content is every original it exists to remove, so it stays in the private tree; step 5 is what enforces the result)"
+echo "== 3. scrub the staged tree =="
+# The scrubber is gitignored and never published: its content is pairs of the subject's verbatim text
+# and a generic replacement, because a replacement needs the original as its search anchor — so
+# publishing it publishes everything it exists to remove. It runs on the STAGING tree, not the tracked
+# one. If it is missing, the build stops: continuing would mean gating an unscrubbed tree and relying on
+# the gate's pattern list to be exhaustive, which is exactly the assumption that failed.
+if [ ! -f "$ROOT/build/genericize.py" ]; then
+  echo "  REFUSING — no scrubber at $ROOT/build/genericize.py."
+  echo "  It is gitignored by design, so a fresh clone will not have it. Restore it from the private"
+  echo "  tree before building a bundle for publication."
+  exit 2
+fi
+python3 "$ROOT/build/genericize.py" "$STAGE" || echo "  (warnings above — anchors that moved in canonical; step 5 is the backstop)"
 
 echo "== 4. package hooks =="
 python3 "$ROOT/build/package-hooks.py"
