@@ -24,3 +24,24 @@ extracted/
 
 # build artifacts
 __pycache__/
+
+# The build's staging tree. Everything the bundle is assembled from lands here first and is gated here;
+# only a passing gate moves it into skills/. Gitignored so that nothing mid-build — which is a verbatim
+# copy of the maintainer's canonical tree, his own records included — can ever be committed.
+.build-stage/
+
+# Untracked leftovers from the old build, which copied the canonical tree straight over the tracked
+# bundle before gating. These carry real records (an old references/ copy holds a named symptom diary),
+# and they are kept on disk rather than deleted because some are work in progress. Ignored so no
+# `git add -A` can ever sweep them into a repository whose remote is public.
+skills/investigate-health/references.OLD-numbered-step-20260716/
+skills/investigate-health/references/PACKAGING.md
+skills/investigate-health/references/REWORK-*.md
+skills/investigate-health/references/narrative-source.md
+skills/investigate-health/references/steps/_superseded/
+contrib/_archive-pre-rework-2026-07-12/
+
+# The scrubber. Its content is pairs of the subject's verbatim text and a generic replacement, because a
+# replacement needs the original as its search anchor — so publishing it published everything it existed
+# to remove. It was live in the public repo until 2026-07-29. Stays on disk, out of git.
+build/genericize.py
