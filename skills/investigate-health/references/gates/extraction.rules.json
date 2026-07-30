@@ -1,0 +1,11 @@
+{
+  "schema": "ih-gate/v1",
+  "file": "extraction (extracted/*.md — the per-source verbatim extracts)",
+  "role": "neutral-data-layer",
+  "human_summary": "Foundation gate. Extraction outputs must not carry a bare declarative causal/diagnostic/mechanistic claim in the tool's own voice; interpretation must be tagged, attributed, or inside a verbatim [src:] quote. Register-shape only; condition-agnostic. src_fidelity (Layer 3a) hard-denies a fabricated [src: F,..,\"quote\"] whose quote does not resolve in a text F. provenance_reconcile (Layer 3b) is ADVISORY: for a DERIVED/CURATED extract it flags concrete factual tokens corroborated by no primary source (warn, never blocks).",
+  "checks": {
+    "extraction_register":  { "enabled": true, "mode": "deny" },
+    "src_fidelity":         { "enabled": true },
+    "provenance_reconcile": { "enabled": true }
+  }
+}

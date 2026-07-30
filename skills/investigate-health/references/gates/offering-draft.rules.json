@@ -1,0 +1,17 @@
+{
+  "schema": "ih-gate/v1",
+  "file": "offering-draft.md",
+  "role": "draft-provenance",
+  "human_summary": "High-precision draft. Every load-bearing claim carries [src:]/[ledger:]+tier. Full provenance discipline; the council audits THIS file. No audit-token/strip gate (it is the source, not the client).",
+  "checks": {
+    "tier_src_pairing":      { "enabled": true },
+    "temporal_date_cite":    { "enabled": true },
+    "src_in_readlog":        { "enabled": true },
+    "register_lint":         { "enabled": true },
+    "diagnosis_attribution": { "enabled": true },
+    "label_pairing":         { "enabled": false },
+    "audit_tokens":          { "enabled": false },
+    "required_artifacts":    { "enabled": false },
+    "faithful_strip":        { "enabled": false }
+  }
+}

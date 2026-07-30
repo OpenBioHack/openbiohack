@@ -1,0 +1,16 @@
+{
+  "schema": "ih-gate/v1",
+  "file": "phaseB (constraints-*, shape-profile-*, mechanism-map-*, convergence-*)",
+  "role": "phaseB-deepening",
+  "human_summary": "Phase-B deepening artifacts. Provenance lint applies; well-formedness/step gates stay hardcoded (step-sequencing, not per-file lint).",
+  "checks": {
+    "tier_src_pairing":      { "enabled": true },
+    "temporal_date_cite":    { "enabled": false },
+    "src_in_readlog":        { "enabled": true },
+    "register_lint":         { "enabled": true },
+    "diagnosis_attribution": { "enabled": true },
+    "label_pairing":         { "enabled": false },
+    "audit_tokens":          { "enabled": false },
+    "required_artifacts":    { "enabled": false }
+  }
+}

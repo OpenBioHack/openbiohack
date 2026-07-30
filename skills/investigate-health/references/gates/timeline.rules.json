@@ -1,0 +1,13 @@
+{
+  "schema": "ih-gate/v1",
+  "file": "the timeline document (timeline.md and its dated copies)",
+  "role": "verbatim-source-layer",
+  "human_summary": "The timeline is not an extraction artifact and is not gated like one. Nothing in it is written in the tool's own voice — every character is copied from a source by lib/timeline/build.py — so extraction_register, which judges the tool's voice, has nothing here to judge. Stated precisely because it was measured rather than assumed: the register was fed a real clinic letter's converted text and an invented line reading 'Diagnosis: ... confirmed', and denied neither, so the claim that it would have mangled verbatim clinical text is NOT established. It is off here because it is inapplicable, not because it was seen doing damage. What this path is actually gated on is timeline_no_tool_write: a Write or Edit landing on the document is denied outright, because the document is built once by build.py and thereafter changed only by insert.py, move.py, annotate.py and tag.py, none of which has a whole-file write path — and a hand-typed line in that document has already been destroyed once by something that rewrote the whole file. Byte-identity of every block against its own declared source span, source primacy, unit tiling, identifier uniqueness and date honesty are checked by verify.py --strict; that runs per-RUN, where the extraction driver fails its ACCURACY-VERDICT with kind timeline-unverified, not per-write, so it is declared here for the record but enforced there.",
+  "checks": {
+    "extraction_register":  { "enabled": false, "mode": "off" },
+    "src_fidelity":         { "enabled": false },
+    "provenance_reconcile": { "enabled": false },
+    "timeline_verify":      { "enabled": true, "mode": "deny", "runs": "lib/timeline/verify.py --strict", "enforced_by": "extract-health-data ACCURACY-VERDICT (kind: timeline-unverified), not this PreToolUse hook" },
+    "timeline_no_tool_write": { "enabled": true, "mode": "deny" }
+  }
+}

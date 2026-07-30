@@ -1,0 +1,18 @@
+{
+  "schema": "ih-gate/v1",
+  "file": "offering.md",
+  "role": "client",
+  "human_summary": "Client-facing offer. A MECHANICAL STRIP of offering-draft.md (faithful_strip). Provenance checks OFF (no tags in the client); register/label/diagnosis stay ON because the client reads this; audit tokens + spot-check still gate the write.",
+  "checks": {
+    "tier_src_pairing":      { "enabled": false },
+    "temporal_date_cite":    { "enabled": false },
+    "src_in_readlog":        { "enabled": false },
+    "register_lint":         { "enabled": true },
+    "diagnosis_attribution": { "enabled": true },
+    "label_pairing":         { "enabled": true },
+    "audit_tokens":          { "enabled": true, "gates": ["offering","decomposition","structure","register","substance"] },
+    "required_artifacts":    { "enabled": true, "list": ["extracted/spot-check.md"] },
+    "faithful_strip":        { "enabled": true, "draft": "offering-draft.md",
+      "allowed_provenance": ["src","ledger","tier","grain","verification-pending","orch-memory"] }
+  }
+}

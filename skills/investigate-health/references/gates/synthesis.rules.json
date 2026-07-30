@@ -1,0 +1,17 @@
+{
+  "schema": "ih-gate/v1",
+  "file": "synthesis (working-hypothesis.md, step5-cross-check.md, hypothesis-set.md, step6-prioritize.md)",
+  "role": "internal-synthesis",
+  "human_summary": "Internal synthesis docs. Full provenance discipline: tier+[src:], src-in-readlog, temporal date+cite, register, non-diagnosis. grounding_primary_anchor (Layer 2) applies to hypothesis-set.md/working-hypothesis.md only: each ### H block must carry >=1 admissible anchor (a non-DERIVED [src:] or a **[STATED]**/[self-report]/[experiential:] line) — a block grounded SOLELY on interpretation or index-flagged DERIVED/CURATED sources is denied.",
+  "checks": {
+    "tier_src_pairing":      { "enabled": true },
+    "temporal_date_cite":    { "enabled": true },
+    "src_in_readlog":        { "enabled": true },
+    "register_lint":         { "enabled": true },
+    "diagnosis_attribution": { "enabled": true },
+    "grounding_primary_anchor": { "enabled": true },
+    "label_pairing":         { "enabled": false },
+    "audit_tokens":          { "enabled": false },
+    "required_artifacts":    { "enabled": false }
+  }
+}
